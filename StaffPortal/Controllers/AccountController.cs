@@ -386,7 +386,7 @@ namespace StaffPortal.Controllers
         }
 
         //
-        // POST: /Account/LogOff
+        // GET: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
