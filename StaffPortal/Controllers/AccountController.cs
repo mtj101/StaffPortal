@@ -151,10 +151,13 @@ namespace StaffPortal.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var db = new ApplicationDbContext();
+                var deparment = db.Department.SingleOrDefault(d => d.Name == model.DepartmentName);
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StaffMember = new StaffMember {Surname = model.Surname, FirstNames = model.FirstNames, Department = deparment } };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "Regular");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

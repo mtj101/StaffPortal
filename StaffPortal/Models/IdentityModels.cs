@@ -27,6 +27,7 @@ namespace StaffPortal.Models
         public DbSet<CompanyHoliday> CompanyHoliday { get; set; }
         public DbSet<Sickness> Sickness { get; set; }
         public DbSet<Alert> Alert { get; set; }
+        public DbSet<StaffMember> StaffMember { get; set; }
     }
 
     public class ApplicationUser : IdentityUser
@@ -38,6 +39,18 @@ namespace StaffPortal.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public int StaffMemberId { get; set; }
+
+        [ForeignKey("StaffMemberId")]
+        public StaffMember StaffMember { get; set; }
+    }
+
+    public class StaffMember
+    {
+        public int Id { get; set; }
+        public string Surname { get; set; }
+        public string FirstNames { get; set; }
 
         public Department Department { get; set; }
     }
@@ -59,7 +72,7 @@ namespace StaffPortal.Models
     {
         public bool IsApproved { get; set; }
 
-        public ApplicationUser User { get; set; }
+        //public StaffMember User { get; set; }
     }
 
     public class CompanyHoliday : Absence
@@ -71,7 +84,7 @@ namespace StaffPortal.Models
     {
         public string Reason { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public StaffMember User { get; set; }
     }
 
     public enum CompanyHolidayType

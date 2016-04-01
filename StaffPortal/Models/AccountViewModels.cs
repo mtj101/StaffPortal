@@ -79,6 +79,10 @@ namespace StaffPortal.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string DepartmentName { get; set; }
+        public string FirstNames { get; set; }
+        public string Surname { get; set; }
     }
 
     public class ResetPasswordViewModel

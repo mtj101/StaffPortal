@@ -1,3 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@{
     ViewBag.Title = "Home Page";
 }
+
+<p>Admin: @User.IsInRole("Admin")</p>
+<p>Regular Staff: @User.IsInRole("Regular")</p>

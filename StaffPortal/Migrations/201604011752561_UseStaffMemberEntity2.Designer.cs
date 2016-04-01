@@ -7,13 +7,13 @@ namespace StaffPortal.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class MoreClasses2 : IMigrationMetadata
+    public sealed partial class UseStaffMemberEntity2 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(MoreClasses2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(UseStaffMemberEntity2));
         
         string IMigrationMetadata.Id
         {
-            get { return "201603301650072_MoreClasses2"; }
+            get { return "201604011752561_UseStaffMemberEntity2"; }
         }
         
         string IMigrationMetadata.Source

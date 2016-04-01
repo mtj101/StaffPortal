@@ -207,7 +207,7 @@
                </ul>
             </li>
             <!-- User Account: style can be found in dropdown.less -->
-            @Html.Partial("_LoginPartial")
+            @{Html.RenderAction("LoginMenu", "Account2");}
          </ul>
       </div>
    </nav>

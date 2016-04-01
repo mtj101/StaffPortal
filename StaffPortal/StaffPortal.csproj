@@ -182,6 +182,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Account2Controller.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminLteController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -189,29 +190,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201603301451047_HolidayBookingClass.cs" />
-    <Compile Include="Migrations\201603301451047_HolidayBookingClass.Designer.cs">
-      <DependentUpon>201603301451047_HolidayBookingClass.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301523457_HolidayBookingForeignKey.cs" />
-    <Compile Include="Migrations\201603301523457_HolidayBookingForeignKey.Designer.cs">
-      <DependentUpon>201603301523457_HolidayBookingForeignKey.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301644502_MoreClasses.cs" />
-    <Compile Include="Migrations\201603301644502_MoreClasses.Designer.cs">
-      <DependentUpon>201603301644502_MoreClasses.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301650072_MoreClasses2.cs" />
-    <Compile Include="Migrations\201603301650072_MoreClasses2.Designer.cs">
-      <DependentUpon>201603301650072_MoreClasses2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301652194_MoreClasses3.cs" />
-    <Compile Include="Migrations\201603301652194_MoreClasses3.Designer.cs">
-      <DependentUpon>201603301652194_MoreClasses3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603301655102_HolidayUser.cs" />
-    <Compile Include="Migrations\201603301655102_HolidayUser.Designer.cs">
-      <DependentUpon>201603301655102_HolidayUser.cs</DependentUpon>
+    <Compile Include="Migrations\201604011752561_UseStaffMemberEntity2.cs" />
+    <Compile Include="Migrations\201604011752561_UseStaffMemberEntity2.Designer.cs">
+      <DependentUpon>201604011752561_UseStaffMemberEntity2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -271,6 +252,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\UserImages\0758452c-ad4b-4b5c-a306-dfadc577bb52.jpg" />
+    <Content Include="Images\UserImages\94fea7a4-e5b4-42b5-bdd5-4af26d4d5cd8.jpg" />
+    <Content Include="Images\UserImages\user3.jpg" />
     <Content Include="Scripts\AdminLTE\app.js" />
     <Content Include="Scripts\AdminLTE\app.min.js" />
     <Content Include="Scripts\AdminLTE\demo.js" />
@@ -837,6 +821,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -852,23 +837,8 @@
     <Content Include="Scripts\jquery-2.2.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603301451047_HolidayBookingClass.resx">
-      <DependentUpon>201603301451047_HolidayBookingClass.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301523457_HolidayBookingForeignKey.resx">
-      <DependentUpon>201603301523457_HolidayBookingForeignKey.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301644502_MoreClasses.resx">
-      <DependentUpon>201603301644502_MoreClasses.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301650072_MoreClasses2.resx">
-      <DependentUpon>201603301650072_MoreClasses2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301652194_MoreClasses3.resx">
-      <DependentUpon>201603301652194_MoreClasses3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603301655102_HolidayUser.resx">
-      <DependentUpon>201603301655102_HolidayUser.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201604011752561_UseStaffMemberEntity2.resx">
+      <DependentUpon>201604011752561_UseStaffMemberEntity2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
