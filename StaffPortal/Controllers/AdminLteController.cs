@@ -18,7 +18,7 @@ namespace AdminLteMvc.Controllers
         /// <returns></returns>
         public ActionResult Index()
         {
-            return View();
+            return View("Index", "_AdminLteLayout");
         }
 
         /// <summary>
