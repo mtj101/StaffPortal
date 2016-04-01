@@ -253,7 +253,7 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\UserImages\0758452c-ad4b-4b5c-a306-dfadc577bb52.jpg" />
-    <Content Include="Images\UserImages\94fea7a4-e5b4-42b5-bdd5-4af26d4d5cd8.jpg" />
+    <Content Include="Images\UserImages\54859954-f3a9-45b8-bc0b-a2dd82c6bb23.jpg" />
     <Content Include="Images\UserImages\user3.jpg" />
     <Content Include="Scripts\AdminLTE\app.js" />
     <Content Include="Scripts\AdminLTE\app.min.js" />
@@ -818,10 +818,10 @@
     <Content Include="Views\AdminLte\Colors.cshtml" />
     <Content Include="Views\Shared\_SideBar.cshtml" />
     <Content Include="Views\Shared\_TopBar.cshtml" />
+    <Content Include="Views\Account2\Register.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Account2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

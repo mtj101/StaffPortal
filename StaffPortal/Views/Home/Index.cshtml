@@ -5,3 +5,8 @@
 
 <p>Admin: @User.IsInRole("Admin")</p>
 <p>Regular Staff: @User.IsInRole("Regular")</p>
+
+@if (User.IsInRole("Admin"))
+{
+   <a href="@Url.Action("Register", "Account2")">Register new user</a>
+}
