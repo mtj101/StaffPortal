@@ -81,6 +81,7 @@ namespace StaffPortal.Models
         public string ConfirmPassword { get; set; }
 
         public string DepartmentName { get; set; }
+        public string RoleName { get; set; }
         public string FirstNames { get; set; }
         public string Surname { get; set; }
     }

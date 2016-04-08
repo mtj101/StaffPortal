@@ -8,12 +8,14 @@ namespace StaffPortal.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("")]
         public ActionResult Index()
         {
             return View();
         }
 
-        public ActionResult About()
+        [Route("calendar")]
+        public ActionResult Calendar()
         {
             ViewBag.Message = "Your application description page.";
 

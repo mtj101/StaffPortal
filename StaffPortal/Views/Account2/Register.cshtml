@@ -1,6 +1,6 @@
 ﻿@model StaffPortal.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Register a new Staff Member";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -42,9 +42,15 @@
       </div>
    </div>
    <div class="form-group">
-      @Html.LabelFor(m => m.DepartmentName, new { @class = "col-md-2 control-label" })
+      @Html.LabelFor(m => m.DepartmentName, new {@class = "col-md-2 control-label"})
       <div class="col-md-10">
-         @Html.TextBoxFor(m => m.DepartmentName, new { @class = "form-control" })
+         @Html.TextBoxFor(m => m.DepartmentName, new {@class = "form-control"})
+      </div>
+   </div>
+   <div class="form-group">
+      @Html.LabelFor(m => m.RoleName, new { @class = "col-md-2 control-label" })
+      <div class="col-md-10">
+         @Html.TextBoxFor(m => m.RoleName, new { @class = "form-control" })
       </div>
    </div>
     <div class="form-group">
