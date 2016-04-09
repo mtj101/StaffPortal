@@ -184,6 +184,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Account2Controller.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminLteController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -202,6 +203,10 @@
     <Compile Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.cs" />
     <Compile Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.Designer.cs">
       <DependentUpon>201604090101154_AddStaffMemberToHolidayBooking.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604091546396_AddForeignKeyForDepartmentToStaff.cs" />
+    <Compile Include="Migrations\201604091546396_AddForeignKeyForDepartmentToStaff.Designer.cs">
+      <DependentUpon>201604091546396_AddForeignKeyForDepartmentToStaff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -827,11 +832,12 @@
     <Content Include="Views\AdminLte\Colors.cshtml" />
     <Content Include="Views\Shared\_SideBar.cshtml" />
     <Content Include="Views\Shared\_TopBar.cshtml" />
-    <Content Include="Views\Account2\Register.cshtml" />
     <Content Include="Views\Home\Calendar.cshtml" />
+    <Content Include="Views\Admin\AddNewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Account2\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -855,6 +861,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.resx">
       <DependentUpon>201604090101154_AddStaffMemberToHolidayBooking.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604091546396_AddForeignKeyForDepartmentToStaff.resx">
+      <DependentUpon>201604091546396_AddForeignKeyForDepartmentToStaff.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

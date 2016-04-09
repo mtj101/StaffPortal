@@ -18,12 +18,12 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
          <li class="header">MAIN NAVIGATION</li>
-         <li class="@(route == "" ? "active" : "")">
+         <li class="@(route == "staff" ? "active" : "")">
             <a href="@Url.Action("Index", "Home")">
                <i class="fa fa-home"></i> <span>Home</span>
             </a>
          </li>
-         <li class="@(route == "calendar" ? "active" : "")">
+         <li class="@(route == "staff/calendar" ? "active" : "")">
             <a href="@Url.Action("Calendar", "Home")">
                <i class="fa fa-calendar"></i> <span>Calendar</span>
                <small class="label pull-right bg-red">3</small>
@@ -34,13 +34,12 @@
             <li class="header">ADMIN</li>
             <li class="treeview">
                <a href="#">
-                  <i class="fa fa-edit"></i> <span>Edit Users</span>
+                  <i class="fa fa-edit"></i> <span>Manage Users</span>
                   <i class="fa fa-angle-left pull-right"></i>
                </a>
                <ul class="treeview-menu">
-                  <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                  <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                  <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                  <li><a href="@Url.Action("AddNewUser", "Admin")"><i class="fa fa-circle-o"></i> Add New</a></li>
+                  <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Edit Existing</a></li>
                </ul>
             </li>
          }

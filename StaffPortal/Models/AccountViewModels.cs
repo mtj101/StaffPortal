@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace StaffPortal.Models
 {
@@ -77,12 +78,17 @@ namespace StaffPortal.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string DepartmentName { get; set; }
+        public IEnumerable<SelectListItem> Departments { get; set; }
+        public int DepartmentId { get; set; }
+
+        public IEnumerable<SelectListItem> Roles { get; set; }
         public string RoleName { get; set; }
+
         public string FirstNames { get; set; }
+
         public string Surname { get; set; }
     }
 
@@ -101,7 +107,7 @@ namespace StaffPortal.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }
