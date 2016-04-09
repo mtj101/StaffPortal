@@ -64,15 +64,16 @@ namespace StaffPortal.Models
     public abstract class Absence
     {
         public int Id { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public string Title { get; set; }
     }
 
     public class HolidayBooking : Absence
     {
         public bool IsApproved { get; set; }
 
-        //public StaffMember User { get; set; }
+        public StaffMember StaffMember { get; set; }
     }
 
     public class CompanyHoliday : Absence

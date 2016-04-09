@@ -185,6 +185,7 @@
     <Compile Include="Controllers\Account2Controller.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminLteController.cs" />
+    <Compile Include="Controllers\CalendarApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,6 +194,14 @@
     <Compile Include="Migrations\201604011752561_UseStaffMemberEntity2.cs" />
     <Compile Include="Migrations\201604011752561_UseStaffMemberEntity2.Designer.cs">
       <DependentUpon>201604011752561_UseStaffMemberEntity2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604090059297_ChangeHolidayBookingProps.cs" />
+    <Compile Include="Migrations\201604090059297_ChangeHolidayBookingProps.Designer.cs">
+      <DependentUpon>201604090059297_ChangeHolidayBookingProps.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.cs" />
+    <Compile Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.Designer.cs">
+      <DependentUpon>201604090101154_AddStaffMemberToHolidayBooking.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -840,6 +849,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201604011752561_UseStaffMemberEntity2.resx">
       <DependentUpon>201604011752561_UseStaffMemberEntity2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604090059297_ChangeHolidayBookingProps.resx">
+      <DependentUpon>201604090059297_ChangeHolidayBookingProps.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201604090101154_AddStaffMemberToHolidayBooking.resx">
+      <DependentUpon>201604090101154_AddStaffMemberToHolidayBooking.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
