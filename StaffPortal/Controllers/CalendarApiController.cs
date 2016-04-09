@@ -12,12 +12,37 @@ namespace StaffPortal.Controllers
     [RoutePrefix("calendar")]
     public class CalendarApiController : ApiController
     {
-        [Route("")]
-        public IEnumerable<HolidayBooking> Get(DateTime start, DateTime end, int staffId)
+        [Route("bookeduserholidays")]
+        [HttpGet]
+        public IEnumerable<HolidayBooking> GetBookedHolidaysByStaffMember(DateTime start, DateTime end, int staffId)
         {
-
             var db = new ApplicationDbContext();
-            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId).ToList();
+            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && h.IsApproved).ToList();
+            return calEvts;
+        }
+
+        [Route("pendinguserholidays")]
+        [HttpGet]
+        public IEnumerable<HolidayBooking> GetPendingHolidaysByStaffMember(DateTime start, DateTime end, int staffId)
+        {
+            var db = new ApplicationDbContext();
+            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && !h.IsApproved).ToList();
+            return calEvts;
+        }
+
+        [AllowAnonymous]
+        [Route("companyholidays")]
+        [HttpGet]
+        public IEnumerable<CompanyHoliday> GetCompanyHolidays(DateTime start, DateTime end)
+        {
+            var db = new ApplicationDbContext();
+            var calEvts = new List<CompanyHoliday>{new CompanyHoliday()
+            {
+                Start = new DateTime(2016,4,10),
+                End = new DateTime(2016,4,11),
+                Title = "Easter"
+            }
+            };
             return calEvts;
         }
 
@@ -25,21 +50,6 @@ namespace StaffPortal.Controllers
         public string Get(int id)
         {
             return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
         }
     }
 }

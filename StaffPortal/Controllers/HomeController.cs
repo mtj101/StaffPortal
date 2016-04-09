@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using StaffPortal.Models;
 
 namespace StaffPortal.Controllers
 {
@@ -66,6 +67,13 @@ namespace StaffPortal.Controllers
             {
                 user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
             }
+            var db = new ApplicationDbContext();
+            var staffMember = db.StaffMember.SingleOrDefault(s => s.Id == user.Id);
+
+            var yearStart = new DateTime(DateTime.Now.Year,1,1);
+            var yearEnd = new DateTime(DateTime.Now.Year + 1, 1, 1);
+            user.HolidaysBooked = db.HolidayBooking.Count(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && h.IsApproved);
+            user.HolidaysPending = db.HolidayBooking.Count(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && !h.IsApproved);
 
             return View(user);
         }
@@ -80,6 +88,9 @@ namespace StaffPortal.Controllers
         public class LoggedInStaffMember
         {
             public int Id { get; set; }
+            public int HolidaysBooked { get; set; }
+            public int HolidaysPending { get; set; }
+            public int Sickness { get; set; }
         }
     }
 }
