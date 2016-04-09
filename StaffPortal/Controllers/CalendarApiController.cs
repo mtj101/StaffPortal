@@ -17,7 +17,7 @@ namespace StaffPortal.Controllers
         public IEnumerable<HolidayBooking> GetBookedHolidaysByStaffMember(DateTime start, DateTime end, int staffId)
         {
             var db = new ApplicationDbContext();
-            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && h.IsApproved).ToList();
+            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && h.IsApproved && h.Start >= start && h.End <= end).ToList();
             return calEvts;
         }
 
@@ -26,7 +26,7 @@ namespace StaffPortal.Controllers
         public IEnumerable<HolidayBooking> GetPendingHolidaysByStaffMember(DateTime start, DateTime end, int staffId)
         {
             var db = new ApplicationDbContext();
-            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && !h.IsApproved).ToList();
+            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.Id == staffId && !h.IsApproved && h.Start >= start && h.End <= end).ToList();
             return calEvts;
         }
 
@@ -38,8 +38,8 @@ namespace StaffPortal.Controllers
             var db = new ApplicationDbContext();
             var calEvts = new List<CompanyHoliday>{new CompanyHoliday()
             {
-                Start = new DateTime(2016,4,10),
-                End = new DateTime(2016,4,11),
+                Start = new DateTime(2016,3,28),
+                End = new DateTime(2016,3,29),
                 Title = "Easter"
             }
             };

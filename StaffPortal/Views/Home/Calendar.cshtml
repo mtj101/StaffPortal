@@ -1,126 +1,132 @@
 ﻿@model StaffPortal.Controllers.HomeController.LoggedInStaffMember
-   @{
-       ViewBag.Title = "Calendar";
-   }
+@{
+    ViewBag.Title = "Calendar";
+}
 
-   <div class="row">
-      <section class="col-md-8">
-         <div class="box box-primary">
-            <div id="calendar"></div>
-         </div>
-      </section>
-      <section class="col-md-4">
-         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-12">
-               <div class="info-box bg-green">
-                  <span class="info-box-icon" data-toggle="modal" data-target="#addHoliday"><i class="fa fa-calendar-plus-o"></i></span>
-                  <div class="info-box-content">
-                     <span class="info-box-text">Holidays (Booked)</span>
-                     <span class="info-box-number">@Model.HolidaysBooked</span>
-                     <!-- The progress section is optional -->
-                     <div class="progress">
-                        <div class="progress-bar" style="width: @((Model.HolidaysBooked / 25d) * 100)%"></div>
-                     </div>
-                     <span class="progress-description">
-                        Total allowance: 25
-                     </span>
-                  </div><!-- /.info-box-content -->
-               </div><!-- /.info-box -->
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-12">
-               <div class="info-box bg-yellow">
-                  <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
-                  <div class="info-box-content">
-                     <span class="info-box-text">Holidays (pending)</span>
-                     <span class="info-box-number">@Model.HolidaysPending</span>
-                  </div><!-- /.info-box-content -->
-               </div><!-- /.info-box -->
-            </div>
-
-            <div class="col-xs-12 col-sm-6 col-md-12">
-               <div class="info-box bg-red">
-                  <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
-                  <div class="info-box-content">
-                     <span class="info-box-text">Sickness</span>
-                     <span class="info-box-number">3</span>
-                  </div><!-- /.info-box-content -->
-               </div><!-- /.info-box -->
+<div class="row">
+   <section class="col-md-8">
+      <div class="box box-primary">
+         <div id="calendar"></div>
+      </div>
+   </section>
+   <section class="col-md-4">
+      <div class="row">
+         <div class="col-xs-12 col-sm-6 col-md-12">
+            <div class="info-box">
+               <span class="info-box-icon bg-blue" data-toggle="modal" data-target="#addHoliday"><i class="fa fa-calendar-plus-o"></i></span>
+               <div class="info-box-content">
+                  <span class="info-box-text">Book a Holiday</span>
+               </div>
             </div>
          </div>
-      </section>
-      <div class="modal fade" id="addHoliday" tabindex="-1" role="dialog" aria-hidden="true">
-         <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                  <h4 class="modal-title" id="addHoliday-label">Modal title</h4>
-               </div>
-               <div class="modal-body">
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary">Book Holiday</button>
-               </div>
+         <div class="col-xs-12 col-sm-6 col-md-12">
+            <div class="info-box bg-green">
+               <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
+               <div class="info-box-content">
+                  <span class="info-box-text">Holidays (Approved)</span>
+                  <span class="info-box-number">@Model.HolidaysBooked days</span>
+                  <!-- The progress section is optional -->
+                  <div class="progress">
+                     <div class="progress-bar" style="width: @((Model.HolidaysBooked/25d)*100)%"></div>
+                  </div>
+                  <span class="progress-description">
+                     Total allowance: 25
+                  </span>
+               </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+         </div>
+
+         <div class="col-xs-12 col-sm-6 col-md-12">
+            <div class="info-box bg-yellow">
+               <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
+               <div class="info-box-content">
+                  <span class="info-box-text">Holidays (pending)</span>
+                  <span class="info-box-number">@Model.HolidaysPending days</span>
+               </div><!-- /.info-box-content -->
+            </div><!-- /.info-box -->
+         </div>
+
+      </div>
+   </section>
+   <div class="modal fade" id="addHoliday" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+               <h4 class="modal-title" id="addHoliday-label">Book a Holiday</h4>
+            </div>
+            <div class="modal-body">
+               <form action="@Url.Action("BookHoliday", "Home")" method="post">
+                  <div class="form-group col-xs-6">
+                     <label for="start" class="label">Start Date</label>
+                     <input type="date" class="form-control" name="start" id="start" /> Start Date
+                  </div>
+                  <div class="form-group col-xs-6">
+                     <label for="end" class="label">End Date</label>
+                     <input type="date" class="form-control" name="end" id="end" /> End Date
+                  </div>
+                  <input type="submit" class="btn btn-primary" />
+               </form>
             </div>
          </div>
       </div>
    </div>
+</div>
 
-   @section Styles {
-      <link href="~/Scripts/AdminLTE/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
-      <style>
-         .fc-event {
-            background-color: #00c0ef;
-         }
+@section Styles {
+   <link href="~/Scripts/AdminLTE/plugins/fullcalendar/fullcalendar.min.css" rel="stylesheet" />
+   <style>
+      .fc-event {
+         background-color: #00c0ef;
+      }
 
-         [data-toggle=modal]:hover {
-            cursor: pointer;
-         }
-      </style>
-   }
+      [data-toggle=modal]:hover {
+         cursor: pointer;
+      }
+   </style>
+}
 
-   @section Scripts {
-      <script src="~/Scripts/AdminLTE/plugins/fullcalendar/fullcalendar.min.js"></script>
-      <script>
-         $(document).ready(function() {
-            $("#calendar").fullCalendar({
-               //events: '/calendar',
-               allDayDefault: true,
-               eventSources: [
-                  {
-                     url: '/calendar/bookeduserholidays',
-                     type: 'GET',
-                     data: {staffId: @(Model.Id)},
-                     error: function () {
-                        alert('there was an error while fetching events!');
-                     },
-                     color: '#00a65a',   // a non-ajax option
-                     textColor: 'white' // a non-ajax option
+@section Scripts {
+   <script src="~/Scripts/AdminLTE/plugins/fullcalendar/fullcalendar.min.js"></script>
+   <script>
+      $(document).ready(function() {
+         $("#calendar").fullCalendar({
+            //events: '/calendar',
+            allDayDefault: true,
+            eventSources: [
+               {
+                  url: '/calendar/bookeduserholidays',
+                  type: 'GET',
+                  data: {staffId: @(Model.Id)},
+                  error: function () {
+                     alert('there was an error while fetching events!');
                   },
-                  {
-                     url: '/calendar/pendinguserholidays',
-                     type: 'GET',
-                     data: {staffId: @(Model.Id)},
-                     error: function () {
-                        alert('there was an error while fetching events!');
-                     },
-                     color: '#f39c12',   // a non-ajax option
-                     textColor: 'white' // a non-ajax option
+                  color: '#00a65a',   // a non-ajax option
+                  textColor: 'white' // a non-ajax option
+               },
+               {
+                  url: '/calendar/pendinguserholidays',
+                  type: 'GET',
+                  data: {staffId: @(Model.Id)},
+                  error: function () {
+                     alert('there was an error while fetching events!');
                   },
-                  {
-                     url: '/calendar/companyholidays',
-                     type: 'GET',
-                     error: function () {
-                        alert('there was an error while fetching events!');
-                     },
-                     color: '#00c0ef',   // a non-ajax option
-                     textColor: 'white' // a non-ajax option
+                  color: '#f39c12',   // a non-ajax option
+                  textColor: 'white' // a non-ajax option
+               },
+               {
+                  url: '/calendar/companyholidays',
+                  type: 'GET',
+                  error: function () {
+                     alert('there was an error while fetching events!');
                   },
-               ]
-            });
+                  color: '#00c0ef',   // a non-ajax option
+                  textColor: 'white' // a non-ajax option
+               },
+            ]
          });
+      });
 
-      </script>
-   }
+   </script>
+}
 

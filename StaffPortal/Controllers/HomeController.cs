@@ -61,7 +61,6 @@ namespace StaffPortal.Controllers
         [Route("calendar")]
         public async Task<ActionResult> Calendar()
         {
-            ViewBag.Message = "Your application description page.";
             var user = new LoggedInStaffMember();
             if (User.Identity.IsAuthenticated)
             {
@@ -72,17 +71,50 @@ namespace StaffPortal.Controllers
 
             var yearStart = new DateTime(DateTime.Now.Year,1,1);
             var yearEnd = new DateTime(DateTime.Now.Year + 1, 1, 1);
-            user.HolidaysBooked = db.HolidayBooking.Count(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && h.IsApproved);
-            user.HolidaysPending = db.HolidayBooking.Count(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && !h.IsApproved);
+
+            user.HolidaysBooked =
+                db.HolidayBooking
+                .Where(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && h.IsApproved)
+                .AsEnumerable()
+                .Aggregate(0, (total, d) => total + (int)(d.End - d.Start).TotalDays);
+
+            user.HolidaysPending =
+                db.HolidayBooking
+                .Where(h => h.StaffMember.Id == user.Id && h.Start >= yearStart && h.End < yearEnd && !h.IsApproved)
+                .AsEnumerable()
+                .Aggregate(0, (total, d) => total + (int)(d.End - d.Start).TotalDays);         
 
             return View(user);
         }
 
-        public ActionResult Contact()
+        [Authorize]
+        [Route("bookholiday")]
+        [HttpPost]
+        public async Task<ActionResult> BookHoliday([Bind(Include = "Start,End")]HolidayBooking requestedHoliday)
         {
-            ViewBag.Message = "Your contact page.";
+            if (requestedHoliday.Start > requestedHoliday.End)
+            {
+                return RedirectToAction("Calendar");
+            }
 
-            return View();
+            int staffId = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                staffId = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
+            }
+            if (staffId != 0 && ModelState.IsValid)
+            {
+                var db = new ApplicationDbContext();
+                var staffMember = db.StaffMember.SingleOrDefault(s => s.Id == staffId);
+                requestedHoliday.Title = "Holiday";
+                requestedHoliday.StaffMember = staffMember;
+                requestedHoliday.IsApproved = false;
+                requestedHoliday.End = requestedHoliday.End.AddDays(1); //end date is exclusive, but user will enter inclusive
+                db.HolidayBooking.Add(requestedHoliday);
+                await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Calendar");
         }
 
         public class LoggedInStaffMember
