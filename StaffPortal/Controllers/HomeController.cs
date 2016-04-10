@@ -13,29 +13,15 @@ namespace StaffPortal.Controllers
     [RoutePrefix("")]
     public class HomeController : Controller
     {
-        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public HomeController()
         {
         }
 
-        public HomeController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public HomeController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
         }
 
         public ApplicationUserManager UserManager
@@ -49,8 +35,6 @@ namespace StaffPortal.Controllers
                 _userManager = value;
             }
         }
-
-        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         [Route("")]
         public ActionResult Index()
@@ -67,7 +51,6 @@ namespace StaffPortal.Controllers
                 user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
             }
             var db = new ApplicationDbContext();
-            var staffMember = db.StaffMember.SingleOrDefault(s => s.Id == user.Id);
 
             var yearStart = new DateTime(DateTime.Now.Year,1,1);
             var yearEnd = new DateTime(DateTime.Now.Year + 1, 1, 1);

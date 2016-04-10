@@ -17,29 +17,15 @@ namespace StaffPortal.Controllers
     [RoutePrefix("calendar")]
     public class CalendarApiController : ApiController
     {
-        private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
         public CalendarApiController()
         {
         }
 
-        public CalendarApiController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public CalendarApiController(ApplicationUserManager userManager)
         {
             UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.Current.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
         }
 
         public ApplicationUserManager UserManager
@@ -53,8 +39,6 @@ namespace StaffPortal.Controllers
                 _userManager = value;
             }
         }
-
-        private IAuthenticationManager AuthenticationManager => HttpContext.Current.GetOwinContext().Authentication;
 
         [Route("bookeduserholidays")]
         [HttpGet]
@@ -96,15 +80,21 @@ namespace StaffPortal.Controllers
         {
             if (requestedHoliday.Start > requestedHoliday.End)
             {
-                return BadRequest("Start date must be before end date");
+                return BadRequest("Start date must be before end date.");
             }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid dates entered.");
+            }
+
+            // TODO: check clashing dates against self + team members
 
             int staffId = 0;
             if (User.Identity.IsAuthenticated)
             {
                 staffId = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
             }
-            if (staffId != 0 && ModelState.IsValid)
+            if (staffId != 0)
             {
                 var db = new ApplicationDbContext();
                 var staffMember = db.StaffMember.SingleOrDefault(s => s.Id == staffId);
