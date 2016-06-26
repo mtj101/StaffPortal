@@ -76,16 +76,13 @@ namespace StaffPortal.Controllers
                 if (result.Succeeded)
                 {
                     UserManager.AddToRole(user.Id, model.RoleName);
-
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    var newUser = new UserCreationViewModel
+                    {
+                        Name = $"{model.FirstNames} {model.Surname}",
+                        Email = model.Email,
+                        Department = model.RoleName
+                    };
+                    return RedirectToAction("ConfirmNewUser", newUser);
                 }
 
                 foreach (var error in result.Errors)
@@ -94,8 +91,20 @@ namespace StaffPortal.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+        [Route("useraddedconfirmation")]
+        public ActionResult ConfirmNewUser(UserCreationViewModel creationViewModel)
+        {          
+            return View(creationViewModel);
+        }
+    }
+
+    public class UserCreationViewModel
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Department { get; set; }
     }
 }

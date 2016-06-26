@@ -9,6 +9,7 @@ using System.Web.Http;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using StaffPortal.Models;
+using StaffPortal.Services;
 
 
 namespace StaffPortal.Controllers
@@ -18,6 +19,7 @@ namespace StaffPortal.Controllers
     public class CalendarApiController : ApiController
     {
         private ApplicationUserManager _userManager;
+        private BookingService _bookingService => new BookingService();
 
         public CalendarApiController()
         {
@@ -58,55 +60,58 @@ namespace StaffPortal.Controllers
             return calEvts;
         }
 
+        [Route("holidayinsamedepartment")]
+        [HttpGet]
+        public IEnumerable<HolidayBooking> GetHolidaysForSameDepartment(DateTime start, DateTime end, int staffId)
+        {
+            var db = new ApplicationDbContext();
+            int department = db.StaffMember.Single(s => s.Id == staffId).DepartmentId;
+            var calEvts = db.HolidayBooking.Where(h => h.StaffMember.DepartmentId == department && h.StaffMember.Id != staffId && h.Start >= start && h.End <= end).ToList();
+            return calEvts;
+        }
+
         [AllowAnonymous]
         [Route("companyholidays")]
         [HttpGet]
         public IEnumerable<CompanyHoliday> GetCompanyHolidays(DateTime start, DateTime end)
         {
-            var calEvts = new List<CompanyHoliday>{new CompanyHoliday()
-            {
-                Start = new DateTime(2016,3,28),
-                End = new DateTime(2016,3,29),
-                Title = "Easter"
-            }
+            var calEvts = new List<CompanyHoliday>
+            { new CompanyHoliday()
+                {
+                    Start = new DateTime(2016,3,28),
+                    End = new DateTime(2016,3,29),
+                    Title = "Easter"
+                }
             };
             return calEvts;
         }
 
-        [Authorize]
         [Route("bookholiday")]
         [HttpPost]
-        public async Task<IHttpActionResult> BookHoliday(HolidayBooking requestedHoliday)
+        public async Task<IHttpActionResult> BookHoliday(BookingDateRange dates)
         {
-            if (requestedHoliday.Start > requestedHoliday.End)
-            {
-                return BadRequest("Start date must be before end date.");
-            }
             if (!ModelState.IsValid)
-            {
                 return BadRequest("Invalid dates entered.");
-            }
 
-            // TODO: check clashing dates against self + team members
+            int staffId = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
 
-            int staffId = 0;
-            if (User.Identity.IsAuthenticated)
+            var bookingResult = await _bookingService.BookHoliday(staffId, dates.Start, dates.End);
+
+            if (bookingResult.IsBooked)
             {
-                staffId = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
-            }
-            if (staffId != 0)
-            {
-                var db = new ApplicationDbContext();
-                var staffMember = db.StaffMember.SingleOrDefault(s => s.Id == staffId);
-                requestedHoliday.Title = "Holiday";
-                requestedHoliday.StaffMember = staffMember;
-                requestedHoliday.IsApproved = false;
-                requestedHoliday.End = requestedHoliday.End.AddDays(1); //end date is exclusive, but user will enter inclusive
-                db.HolidayBooking.Add(requestedHoliday);
-                await db.SaveChangesAsync();
+                return Ok();
             }
 
-            return Ok();
+            // If we got this far, there must be something wrong
+            return BadRequest(bookingResult.Message);
+        }
+
+        [Route("holidaytotals")]
+        [HttpGet]
+        public IHttpActionResult GetHolidayTotalsForUser(int staffId)
+        {
+            var holidayCounts = _bookingService.GetHolidayTotalsForUser(staffId);
+            return Ok(holidayCounts);
         }
     }
 }

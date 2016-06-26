@@ -1,4 +1,4 @@
-﻿@model StaffPortal.Controllers.HomeController.LoggedInStaffMember
+﻿@model StaffPortal.Models.LoggedInStaffMember
 @{
     ViewBag.Title = "Calendar";
 }
@@ -24,13 +24,13 @@
                <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Holidays (Approved)</span>
-                  <span class="info-box-number">@Model.HolidaysBooked days</span>
+                   <span class="info-box-number"><span id="bookeddays">@Model.HolidaysBooked</span> days</span>
                   <!-- The progress section is optional -->
                   <div class="progress">
-                     <div class="progress-bar" style="width: @((Model.HolidaysBooked/25d)*100)%"></div>
+                     <div class="progress-bar" style="width: @((Model.HolidaysBooked/20d)*100)%"></div>
                   </div>
                   <span class="progress-description">
-                     Total allowance: 25
+                     Total allowance: 20
                   </span>
                </div><!-- /.info-box-content -->
             </div><!-- /.info-box -->
@@ -41,7 +41,7 @@
                <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Holidays (pending)</span>
-                  <span class="info-box-number">@Model.HolidaysPending days</span>
+                   <span class="info-box-number"><span id="pendingdays">@Model.HolidaysPending</span> days</span>
                </div><!-- /.info-box-content -->
             </div><!-- /.info-box -->
          </div>
@@ -63,7 +63,7 @@
                         <input type="date" class="form-control" name="start" id="start"/>
                      </div>
                      <div class="form-group col-sm-6">
-                        <label for="end" class="control-label">End Date</label>
+                        <label for="end" class="control-label">Return to Work</label>
                         <input type="date" class="form-control" name="end" id="end"/>
                      </div>
                   </div>
@@ -96,67 +96,81 @@
 @section Scripts {
    <script src="~/Scripts/AdminLTE/plugins/fullcalendar/fullcalendar.min.js"></script>
    <script>
-      $(document).ready(function() {
-         $("#calendar").fullCalendar({
-            //events: '/calendar',
-            allDayDefault: true,
-            eventSources: [
-               {
-                  url: '/calendar/bookeduserholidays',
-                  type: 'GET',
-                  data: {staffId: @(Model.Id)},
-                  error: function () {
-                     alert('there was an error while fetching events!');
-                  },
-                  color: '#00a65a',   // a non-ajax option
-                  textColor: 'white' // a non-ajax option
-               },
-               {
-                  url: '/calendar/pendinguserholidays',
-                  type: 'GET',
-                  data: {staffId: @(Model.Id)},
-                  error: function () {
-                     alert('there was an error while fetching events!');
-                  },
-                  color: '#f39c12',   // a non-ajax option
-                  textColor: 'white' // a non-ajax option
-               },
-               {
-                  url: '/calendar/companyholidays',
-                  type: 'GET',
-                  error: function () {
-                     alert('there was an error while fetching events!');
-                  },
-                  color: '#00c0ef',   // a non-ajax option
-                  textColor: 'white' // a non-ajax option
-               },
-            ]
-         });
+$(document).ready(function() {
+   $("#calendar").fullCalendar({
+      allDayDefault: true,
+      eventSources: [
+         {
+            url: '/calendar/bookeduserholidays',
+            type: 'GET',
+            data: {staffId: @(Model.Id)},
+            error: function () {
+               alert('there was an error while fetching events!');
+            },
+            color: '#00a65a',
+            textColor: 'white'
+         },
+         {
+            url: '/calendar/pendinguserholidays',
+            type: 'GET',
+            data: {staffId: @(Model.Id)},
+            error: function () {
+               alert('there was an error while fetching events!');
+            },
+            color: '#f39c12',
+            textColor: 'white'
+         },
+         {
+            url: '/calendar/companyholidays',
+            type: 'GET',
+            error: function () {
+               alert('there was an error while fetching events!');
+            },
+            color: '#00c0ef',
+            textColor: 'white'
+         },
+        {
+            url: '/calendar/holidayinsamedepartment',
+            type: 'GET',
+            data: {staffId: @(Model.Id)},
+            error: function () {
+                alert('there was an error while fetching events!');
+            },
+            color: '#ee0000',
+            textColor: 'white'
+        }
+      ]
+   });
 
-         $("#holidayformsubmit").click(function() {
-            $("#holidayformsubmit").attr("disabled", true);
-            var formContents = $("#holidaybookingform").serialize();
-            
-            $.post("/calendar/bookholiday", formContents)
-               .done(function() {
-                  $("#holidaymessage").css("color", "green");
-                  $("#holidaymessage").text("Holiday requested OK");
-                  $("#calendar").fullCalendar("refetchEvents");
-               })
-               .fail(function(jqXHR, textStatus) {
-                  $("#holidaymessage").css("color", "red");
-                  $("#holidaymessage").text(JSON.parse(jqXHR.responseText).message);
-                  $("#holidayformsubmit").attr("disabled", false);
-               });
+   $("#holidayformsubmit").click(function() {
+      $("#holidayformsubmit").attr("disabled", true);
+      var formContents = $("#holidaybookingform").serialize();
 
-            return false;
-         });
-
-         $("#newholiday").click(function() {
+      $.post("/calendar/bookholiday", formContents)
+         .done(function() {
+            $("#holidaymessage").css("color", "green");
+            $("#holidaymessage").text("Holiday requested OK");
+            $("#calendar").fullCalendar("refetchEvents");
+              $.getJSON("/calendar/holidaytotals", {staffId: @Model.Id})
+                  .done(function(data) {
+                      $("#pendingdays").text(data.pending);
+                      $("#bookeddays").text(data.bookeddays);
+                  });
+          })
+         .fail(function(jqXHR, textStatus) {
+            $("#holidaymessage").css("color", "red");
+            $("#holidaymessage").text(JSON.parse(jqXHR.responseText).message);
             $("#holidayformsubmit").attr("disabled", false);
-            $("#holidaymessage").text("");
          });
-      });
+
+      return false;
+   });
+
+   $("#newholiday").click(function() {
+      $("#holidayformsubmit").attr("disabled", false);
+      $("#holidaymessage").text("");
+   });
+});
 
    </script>
 }

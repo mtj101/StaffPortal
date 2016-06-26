@@ -22,21 +22,19 @@ namespace StaffPortal.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<HolidayBooking> HolidayBooking { get; set; }
-        public DbSet<Department> Department { get; set; }
-        public DbSet<CompanyHoliday> CompanyHoliday { get; set; }
-        public DbSet<Sickness> Sickness { get; set; }
-        public DbSet<Alert> Alert { get; set; }
-        public DbSet<StaffMember> StaffMember { get; set; }
+        public virtual DbSet<HolidayBooking> HolidayBooking { get; set; }
+        public virtual DbSet<Department> Department { get; set; }
+        public virtual DbSet<CompanyHoliday> CompanyHoliday { get; set; }
+        public virtual DbSet<Sickness> Sickness { get; set; }
+        public virtual DbSet<Alert> Alert { get; set; }
+        public virtual DbSet<StaffMember> StaffMember { get; set; }
     }
 
     public class ApplicationUser : IdentityUser
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
-            // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            // Add custom user claims here
             return userIdentity;
         }
 
@@ -78,6 +76,19 @@ namespace StaffPortal.Models
         public bool IsApproved { get; set; }
 
         public StaffMember StaffMember { get; set; }
+
+        private HolidayBooking() { }
+
+        public HolidayBooking(StaffMember staffMember, DateTime start, DateTime end)
+        {
+            if (start >= end)
+                throw new ArgumentException("Start date must be before end date");
+
+            this.StaffMember = staffMember;
+            this.Start = start;
+            this.End = end;
+            this.Title = "Holiday";
+        }
     }
 
     public class CompanyHoliday : Absence
