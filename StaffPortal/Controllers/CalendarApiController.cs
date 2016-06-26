@@ -67,6 +67,10 @@ namespace StaffPortal.Controllers
             var db = new ApplicationDbContext();
             int department = db.StaffMember.Single(s => s.Id == staffId).DepartmentId;
             var calEvts = db.HolidayBooking.Where(h => h.StaffMember.DepartmentId == department && h.StaffMember.Id != staffId && h.Start >= start && h.End <= end).ToList();
+            foreach (var booking in calEvts)
+            {
+                booking.Title = "Unavailable";
+            }
             return calEvts;
         }
 
