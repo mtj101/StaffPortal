@@ -27,8 +27,14 @@ namespace StaffPortal.Services
                 int departmentNum = _db.StaffMember.Single(s => s.Id == staffMemberId).DepartmentId;
                 // all of the holidays of staff members in the same department as current staff member
                 var bookingsForDepartment = _db.HolidayBooking.Where(hb => hb.StaffMember.DepartmentId == departmentNum).ToList();
+                // all the company holidays (i.e. cannot book a holiday on these days)
+                var companyHolidays = _db.CompanyHoliday.ToList();
 
-                bool bookingIsValid = ValidateBooking(start, end, bookingsForDepartment);
+                List<Absence> unavailableDays = new List<Absence>();
+                unavailableDays.AddRange(bookingsForDepartment);
+                unavailableDays.AddRange(companyHolidays);               
+
+                bool bookingIsValid = ValidateBooking(start, end, unavailableDays);
 
                 if (!bookingIsValid)
                 {
@@ -48,14 +54,14 @@ namespace StaffPortal.Services
         }
 
 
-        private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<HolidayBooking> bookingsForDepartment)
+        private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays)
         {
             var daysRequested = GetBusinessDays(start, end);
 
             var daysNotAvailable = new HashSet<DateTime>();
-            foreach (var holidayBooking in bookingsForDepartment)
+            foreach (var holiday in unavailableDays)
             {
-                var days = GetBusinessDays(holidayBooking.Start, holidayBooking.End);
+                var days = GetBusinessDays(holiday.Start, holiday.End);
                 foreach (var day in days)
                 {
                     daysNotAvailable.Add(day);

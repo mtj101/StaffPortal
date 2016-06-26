@@ -79,14 +79,8 @@ namespace StaffPortal.Controllers
         [HttpGet]
         public IEnumerable<CompanyHoliday> GetCompanyHolidays(DateTime start, DateTime end)
         {
-            var calEvts = new List<CompanyHoliday>
-            { new CompanyHoliday()
-                {
-                    Start = new DateTime(2016,3,28),
-                    End = new DateTime(2016,3,29),
-                    Title = "Easter"
-                }
-            };
+            var db = new ApplicationDbContext();
+            var calEvts = db.CompanyHoliday.Where(ch => ch.Start >= start && ch.End <= end).ToList();
             return calEvts;
         }
 
