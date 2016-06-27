@@ -8,8 +8,9 @@ using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using StaffPortal.Business;
 using StaffPortal.Models;
-using StaffPortal.Services;
+using StaffPortal.Service;
 
 
 namespace StaffPortal.Controllers

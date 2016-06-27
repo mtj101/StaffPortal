@@ -186,6 +186,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Business\HolidayManager.cs" />
     <Compile Include="Controllers\AccountAutoController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -213,15 +214,23 @@
       <DependentUpon>201604091546396_AddForeignKeyForDepartmentToStaff.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Business\Absence.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Business\Alert.cs" />
     <Compile Include="Models\BookingDateRange.cs" />
-    <Compile Include="Models\BookingResult.cs" />
+    <Compile Include="Business\BookingResult.cs" />
+    <Compile Include="Business\CompanyHoliday.cs" />
+    <Compile Include="Business\CompanyHolidayType.cs" />
+    <Compile Include="Business\Department.cs" />
+    <Compile Include="Business\HolidayBooking.cs" />
     <Compile Include="Models\HolidayTotals.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoggedInStaffMember.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Business\Sickness.cs" />
+    <Compile Include="Business\StaffMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\BookingService.cs" />
+    <Compile Include="Service\BookingService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

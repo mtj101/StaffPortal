@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using StaffPortal.Business;
 
 namespace StaffPortal.Models.Tests
 {

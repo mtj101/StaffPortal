@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using StaffPortal.Models;
-using StaffPortal.Services;
+using StaffPortal.Service;
 
 namespace StaffPortal.Controllers
 {
