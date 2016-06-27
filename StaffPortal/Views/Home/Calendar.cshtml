@@ -24,7 +24,7 @@
                <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
                <div class="info-box-content">
                   <span class="info-box-text">Holidays (Approved)</span>
-                   <span class="info-box-number"><span id="bookeddays">@Model.HolidaysBooked</span> days</span>
+                   <span class="info-box-number">@Model.HolidaysBooked days</span>
                   <!-- The progress section is optional -->
                   <div class="progress">
                      <div class="progress-bar" style="width: @((Model.HolidaysBooked/20d)*100)%"></div>
@@ -154,7 +154,6 @@ $(document).ready(function() {
               $.getJSON("/calendar/holidaytotals", {staffId: @Model.Id})
                   .done(function(data) {
                       $("#pendingdays").text(data.pending);
-                      $("#bookeddays").text(data.bookeddays);
                   });
           })
          .fail(function(jqXHR, textStatus) {
