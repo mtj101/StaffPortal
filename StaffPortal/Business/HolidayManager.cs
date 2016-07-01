@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace StaffPortal.Business
@@ -12,17 +13,18 @@ namespace StaffPortal.Business
         /// <param name="member">An existing staff member</param>
         /// <param name="start">Date of first holiday day</param>
         /// <param name="end">Date of return to work</param>
-        /// <param name="unavailableDays">The Absences which contain the days that are unavailable to be booked on</param>
+        /// <param name="unavailableDays">The Absences which contain the days that cannot contain ANY clashes (e.g. own holidays, company holidays)</param>
+        /// <param name="departmentHolidays">The Absences which contain the days that could have clashes depending on business rules of concurrent holidays</param>
         /// <returns>BookingResult</returns>
         public BookingResult BookHoliday(StaffMember member, DateTime start, DateTime end,
-            IEnumerable<Absence> unavailableDays)
+            IEnumerable<Absence> unavailableDays, IEnumerable<Absence> departmentHolidays)
         {
             if (start >= end)
                 return new BookingResult(null, "Start date must be before end date.", false);
             if (member == null)
                 return new BookingResult(null, "A valid member must be provided.", false);
 
-            bool bookingIsValid = ValidateBooking(start, end, unavailableDays);
+            bool bookingIsValid = ValidateBooking(start, end, unavailableDays, departmentHolidays);
 
             if (bookingIsValid)
             {
@@ -32,23 +34,43 @@ namespace StaffPortal.Business
         }
 
 
-        private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays)
+        private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays, IEnumerable<Absence> departmentHolidays)
         {
+            int maxConcurrentHolidays = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerDepartment"]);
             var daysRequested = GetBusinessDays(start, end);
 
-            // if duplicate days, just keep one
+            // if duplicate days in unavailable days, just keep one
             var daysNotAvailable = new HashSet<DateTime>();
-            foreach (var holiday in unavailableDays)
+            if (unavailableDays != null)
             {
-                var days = GetBusinessDays(holiday.Start, holiday.End);
-                foreach (var day in days)
+                foreach (var holiday in unavailableDays)
                 {
-                    daysNotAvailable.Add(day);
+                    var days = GetBusinessDays(holiday.Start, holiday.End);
+                    foreach (var day in days)
+                    {
+                        daysNotAvailable.Add(day);
+                    }
                 }
             }
-            bool clash = daysNotAvailable.Intersect(daysRequested).Any();
+            bool clashUnavailable = daysNotAvailable.Intersect(daysRequested).Any();
 
-            return !clash;
+            // if duplicate days in department holidays, keep both
+            var departmentBookedDays = new List<DateTime>();
+            if (departmentHolidays != null)
+            {
+                foreach (var holiday in departmentHolidays)
+                {
+                    var days = GetBusinessDays(holiday.Start, holiday.End);
+                    foreach (var day in days)
+                    {
+                        departmentBookedDays.Add(day);
+                    }
+                }
+            }
+            bool clashDepartment = departmentBookedDays.GroupBy(d => d).Any(dt => daysRequested.Contains(dt.Key) && dt.Count() >= maxConcurrentHolidays);
+
+
+            return !(clashUnavailable || clashDepartment);
         }
 
         private IEnumerable<DateTime> GetBusinessDays(DateTime startD, DateTime endD)

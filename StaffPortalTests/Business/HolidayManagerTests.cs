@@ -25,7 +25,7 @@ namespace StaffPortalTests.Business
             var end = new DateTime(2016, 2, 2);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(member, start, end, null);
+            var bookingResult = holidayManager.BookHoliday(member, start, end, null, null);
 
             // assert
             Assert.AreEqual("Start date must be before end date.", bookingResult.Message);
@@ -40,7 +40,7 @@ namespace StaffPortalTests.Business
             var end = new DateTime(2016, 2, 2);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(null, start, end, null);
+            var bookingResult = holidayManager.BookHoliday(null, start, end, null, null);
 
             // assert
             Assert.AreEqual("A valid member must be provided.", bookingResult.Message);
@@ -48,7 +48,7 @@ namespace StaffPortalTests.Business
         }
 
         [Test]
-        public void BookHolidayTest__clashing_day_results_in_booking_failure()
+        public void BookHolidayTest__clashing_unavailable_day_results_in_booking_failure()
         {
             // arrange
             var member = new StaffMember();
@@ -59,7 +59,7 @@ namespace StaffPortalTests.Business
             var clash = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> {clash});
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash }, null );
 
             // assert
             Assert.AreEqual("Unable to book, clash with current holiday.", bookingResult.Message);
@@ -78,7 +78,7 @@ namespace StaffPortalTests.Business
             var clash = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash });
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash }, null);
 
             // assert
             Assert.AreEqual("Successful booking.", bookingResult.Message);
@@ -97,7 +97,7 @@ namespace StaffPortalTests.Business
             var clash = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash });
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash }, null);
 
             // assert
             Assert.AreEqual("Successful booking.", bookingResult.Message);
@@ -116,7 +116,88 @@ namespace StaffPortalTests.Business
             var clash = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
 
             // act
-            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash });
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, new List<Absence> { clash }, null);
+
+            // assert
+            Assert.AreEqual("Successful booking.", bookingResult.Message);
+            Assert.True(bookingResult.IsBooked);
+        }
+
+        [Test]
+        public void BookHolidayTest__new_booking_clashing_with_1_department_holiday_results_in_success()
+        {
+            // arrange
+            var member = new StaffMember();
+            var startNewBooking = new DateTime(2016, 6, 4);
+            var endNewBooking = new DateTime(2016, 6, 10);
+            var startExistingBooking = new DateTime(2016, 6, 4);
+            var endExistingBooking = new DateTime(2016, 6, 10);
+            var clash = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
+
+            // act
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, null, new List<Absence> { clash });
+
+            // assert
+            Assert.AreEqual("Successful booking.", bookingResult.Message);
+            Assert.True(bookingResult.IsBooked);
+        }
+
+        [Test]
+        public void BookHolidayTest__new_booking_clashing_with_2_department_holidays_results_in_failure()
+        {
+            // arrange
+            var member = new StaffMember();
+            var startNewBooking = new DateTime(2016, 6, 4);
+            var endNewBooking = new DateTime(2016, 6, 10);
+            var startExistingBooking = new DateTime(2016, 6, 4);
+            var endExistingBooking = new DateTime(2016, 6, 7);
+            var clash1 = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
+            var clash2 = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
+
+            // act
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, null, new List<Absence> { clash1, clash2 });
+
+            // assert
+            Assert.AreEqual("Unable to book, clash with current holiday.", bookingResult.Message);
+            Assert.False(bookingResult.IsBooked);
+        }
+
+        [Test]
+        public void BookHolidayTest__new_booking_clashing_with_2_department_holidays_but_on_different_days_results_in_success()
+        {
+            // arrange
+            var member = new StaffMember();
+            var startNewBooking = new DateTime(2016, 6, 4);
+            var endNewBooking = new DateTime(2016, 6, 10);
+            var startExistingBooking1 = new DateTime(2016, 6, 4);
+            var endExistingBooking1 = new DateTime(2016, 6, 7);
+            var startExistingBooking2 = new DateTime(2016, 6, 7);
+            var endExistingBooking2 = new DateTime(2016, 6, 9);
+            var clash1 = new HolidayBooking(new StaffMember(), startExistingBooking1, endExistingBooking1);
+            var clash2 = new HolidayBooking(new StaffMember(), startExistingBooking2, endExistingBooking2);
+
+            // act
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, null, new List<Absence> { clash1, clash2 });
+
+            // assert
+            Assert.AreEqual("Successful booking.", bookingResult.Message);
+            Assert.True(bookingResult.IsBooked);
+        }
+
+        [Test]
+        public void BookHolidayTest__new_booking_clashing_with_nothing_but_two_holidays_that_do_clash_exist_results_in_success()
+        {
+            // arrange
+            var member = new StaffMember();
+            var startNewBooking = new DateTime(2016, 6, 20);
+            var endNewBooking = new DateTime(2016, 6, 25);
+            var startExistingBooking = new DateTime(2016, 6, 4);
+            var endExistingBooking = new DateTime(2016, 6, 7);
+            var clash1 = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
+            var clash2 = new HolidayBooking(new StaffMember(), startExistingBooking, endExistingBooking);
+
+            // act
+            var bookingResult = holidayManager.BookHoliday(member, startNewBooking, endNewBooking, null, new List<Absence> { clash1, clash2 });
 
             // assert
             Assert.AreEqual("Successful booking.", bookingResult.Message);

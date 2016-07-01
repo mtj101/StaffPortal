@@ -23,16 +23,18 @@ namespace StaffPortal.Service
             if (staffMember == null)
                 return new BookingResult(null, $"No Staff Member with id {staffId} found", false);
 
-            // all of the holidays of staff members in the same department as current staff member
-            var bookingsForDepartment = await _db.HolidayBooking.Where(hb => hb.StaffMember.DepartmentId == staffMember.DepartmentId).ToListAsync();
+            // all of the holidays of staff members in the same department as current staff member (but excluding the current staff member themselves)
+            var bookingsForDepartment = await _db.HolidayBooking.Where(hb => hb.StaffMember.DepartmentId == staffMember.DepartmentId && hb.StaffMember.Id != staffMember.Id).ToListAsync();
+            // the current member's existing holiday bookings
+            var currentMembersHolidays = await _db.HolidayBooking.Where(hb => hb.StaffMember.Id == staffMember.Id).ToListAsync();
             // all the company holidays (i.e. cannot book a holiday on these days)
             var companyHolidays = await _db.CompanyHoliday.ToListAsync();
 
             List<Absence> unavailableDays = new List<Absence>();
-            unavailableDays.AddRange(bookingsForDepartment);
             unavailableDays.AddRange(companyHolidays);
+            unavailableDays.AddRange(currentMembersHolidays);
 
-            var bookingResult = holidayManager.BookHoliday(staffMember, start, end, unavailableDays);
+            var bookingResult = holidayManager.BookHoliday(staffMember, start, end, unavailableDays, bookingsForDepartment);
 
             if (bookingResult.IsBooked)
             {

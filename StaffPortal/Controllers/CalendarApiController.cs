@@ -70,7 +70,7 @@ namespace StaffPortal.Controllers
             var calEvts = db.HolidayBooking.Where(h => h.StaffMember.DepartmentId == department && h.StaffMember.Id != staffId && h.Start >= start && h.End <= end).ToList();
             foreach (var booking in calEvts)
             {
-                booking.Title = "Unavailable";
+                booking.Title = "Department Holiday";
             }
             return calEvts;
         }
