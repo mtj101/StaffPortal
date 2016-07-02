@@ -19,6 +19,8 @@ namespace StaffPortal.Controllers
     [RoutePrefix("calendar")]
     public class CalendarApiController : ApiController
     {
+        #region initialisation and identity
+
         private ApplicationUserManager _userManager;
         private BookingService _bookingService => new BookingService();
 
@@ -37,11 +39,11 @@ namespace StaffPortal.Controllers
             {
                 return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
-            private set
-            {
-                _userManager = value;
-            }
+            private set { _userManager = value; }
         }
+
+        #endregion
+
 
         [Route("bookeduserholidays")]
         [HttpGet]
