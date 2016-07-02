@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -38,9 +39,24 @@ namespace StaffPortal.Service
 
             if (bookingResult.IsBooked)
             {
-                _db.HolidayBooking.Add(bookingResult.HolidayBooking);
-                await _db.SaveChangesAsync();
+                var currentHolidays = GetHolidayTotalsForUser(staffId);
+                int maxDaysForMember = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerMember"]);
+                bool areEnoughDaysInBalance = currentHolidays.Booked + currentHolidays.Pending +
+                                              holidayManager.GetNumberOfBusinessDays(start, end) <= maxDaysForMember;
+
+                if (areEnoughDaysInBalance)
+                {
+                    _db.HolidayBooking.Add(bookingResult.HolidayBooking);
+                    await _db.SaveChangesAsync();
+                    return bookingResult;
+                }
+                else
+                {
+                    return new BookingResult(null, "Maximum holidays have been exceeded", false);
+                }
+
             }
+
             return bookingResult;
         }
 

@@ -37,6 +37,7 @@ namespace StaffPortal.Business
         private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays, IEnumerable<Absence> departmentHolidays)
         {
             int maxConcurrentHolidays = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerDepartment"]);
+
             var daysRequested = GetBusinessDays(start, end);
 
             // if duplicate days in unavailable days, just keep one
@@ -98,7 +99,7 @@ namespace StaffPortal.Business
             return booked;
         }
 
-        private int GetNumberOfBusinessDays(DateTime startD, DateTime endD)
+        public int GetNumberOfBusinessDays(DateTime startD, DateTime endD)
         {
             return GetBusinessDays(startD, endD).Count();
         }

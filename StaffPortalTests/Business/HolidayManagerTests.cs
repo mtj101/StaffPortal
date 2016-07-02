@@ -204,6 +204,7 @@ namespace StaffPortalTests.Business
             Assert.True(bookingResult.IsBooked);
         }
 
+
         [Test]
         public void GetHolidayCountsForBookingsTest__a_single_holiday_booking_during_weekday_returns_correct_number_of_days()
         {

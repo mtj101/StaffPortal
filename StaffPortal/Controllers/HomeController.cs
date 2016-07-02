@@ -54,6 +54,21 @@ namespace StaffPortal.Controllers
             return View(user);
         }
 
+        [Authorize]
+        [Route("userpanel")]
+        public async Task<ActionResult> UserPanel()
+        {
+            var user = new LoggedInStaffMember();
+            if (User.Identity.IsAuthenticated)
+            {
+                user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
+            }
 
+            var totals = _bookingService.GetHolidayTotalsForUser(user.Id);
+            user.HolidaysBooked = totals.Booked;
+            user.HolidaysPending = totals.Pending;
+
+            return View(user);
+        }
     }
 }
