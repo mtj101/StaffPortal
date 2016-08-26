@@ -65,7 +65,9 @@ namespace StaffPortal.Controllers
                         City = model.City,
                         PostCode = model.PostCode,
                         County = model.County,
-                        Country = model.Country
+                        Country = model.Country,
+                        PhoneNumber = model.PhoneNumber,
+                        DateOfBirth = model.DateOfBirth
                     }
                 };
 

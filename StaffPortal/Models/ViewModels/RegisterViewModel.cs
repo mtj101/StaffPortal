@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -45,5 +46,8 @@ namespace StaffPortal.Models.ViewModels
         public string PostCode { get; set; }
 
         public string Country { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime DateOfBirth { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StaffPortal.Business
 {
@@ -7,7 +8,9 @@ namespace StaffPortal.Business
         public int Id { get; set; }
         public string Surname { get; set; }
         public string FirstNames { get; set; }
+        public DateTime DateOfBirth { get; set; }
         public string PhoneNumber { get; set; }
+
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string City { get; set; }

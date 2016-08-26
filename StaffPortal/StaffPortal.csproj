@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201608261838259_StaffMemberAddressAndPhone.Designer.cs">
       <DependentUpon>201608261838259_StaffMemberAddressAndPhone.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608261919420_StaffMemberDateOfBirth.cs" />
+    <Compile Include="Migrations\201608261919420_StaffMemberDateOfBirth.Designer.cs">
+      <DependentUpon>201608261919420_StaffMemberDateOfBirth.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\ViewMembersViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMemberViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
@@ -870,6 +874,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608261838259_StaffMemberAddressAndPhone.resx">
       <DependentUpon>201608261838259_StaffMemberAddressAndPhone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261919420_StaffMemberDateOfBirth.resx">
+      <DependentUpon>201608261919420_StaffMemberDateOfBirth.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
