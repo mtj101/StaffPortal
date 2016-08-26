@@ -1,0 +1,45 @@
+﻿@model List<StaffPortal.Models.ViewModels.ViewMembersViewModel>
+
+@{
+    ViewBag.Title = "Manage Users > Edit Existing";
+}
+
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Active Users</h3>
+    </div>
+    <div class="box-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Department</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+                @foreach (var staffMember in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.RouteUrl("edituser", new {memberId = staffMember.Id})" class="btn btn-primary">Edit</a>
+                        </td>
+                        <td>
+                            @staffMember.Name
+                        </td>
+                        <td>
+                            @staffMember.Department
+                        </td>
+                        <td>
+                            @staffMember.Role
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using StaffPortal.Models;
+using StaffPortal.Models.ViewModels;
 using StaffPortal.Service;
 
 namespace StaffPortal.Controllers
@@ -50,6 +53,7 @@ namespace StaffPortal.Controllers
             var totals = _bookingService.GetHolidayTotalsForUser(user.Id);
             user.HolidaysBooked = totals.Booked;
             user.HolidaysPending = totals.Pending;
+            user.MaximumHolidays = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerMember"]);
 
             return View(user);
         }
@@ -69,6 +73,24 @@ namespace StaffPortal.Controllers
             user.HolidaysPending = totals.Pending;
 
             return View(user);
+        }
+
+        [ChildActionOnly]
+        public ActionResult SideBar()
+        {
+            var viewModel = new SideBarViewModel();
+
+            if (User.IsInRole("Admin"))
+            {
+                viewModel.PendingHolidaysForSupervisor = new SupervisorService().GetAllPendingHolidays().Count;
+            }
+            if (User.IsInRole("Supervisor"))
+            {
+                int userId = UserManager.FindById(User.Identity.GetUserId()).StaffMemberId;
+                viewModel.PendingHolidaysForSupervisor = new SupervisorService().GetPendingHolidaysForSupervisor(userId).Count;
+            }
+
+            return View("_SideBar", viewModel);
         }
     }
 }

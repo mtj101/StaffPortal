@@ -1,6 +1,7 @@
-﻿@{
+﻿@model StaffPortal.Models.ViewModels.SideBarViewModel
+@{
     Layout = null;
-    string route = ((System.Web.Routing.Route)ViewContext.RouteData.Route).Url;
+    string route = ((System.Web.Routing.Route)ViewContext.ParentActionViewContext.RouteData.Route).Url;
 }
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -26,7 +27,6 @@
             <li class="@(route == "calendar" ? "active" : "")">
                 <a href="@Url.Action("Calendar", "Home")">
                     <i class="fa fa-calendar"></i> <span>Calendar</span>
-                    <small class="label pull-right bg-red">3</small>
                 </a>
             </li>
             @if (User.Identity.IsAuthenticated)
@@ -40,23 +40,16 @@
             @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
             {
                 <li class="header">SUPERVISOR TOOLS</li>
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-users"></i> <span>Supervisor options</span>
-                        <i class="fa fa-angle-left pull-right"></i>
+                <li class="@(route == "supervisor/pending" ? "active" : "")">
+                    <a href="@Url.Action("Pending", "Supervisor")">
+                        <i class="fa fa-calendar-check-o"></i> Pending Requests
+                        @if (Model.PendingHolidaysForSupervisor > 0)
+                        {
+                            <small class="label pull-right bg-red">@Model.PendingHolidaysForSupervisor</small>
+                        }                      
                     </a>
-                    <ul class="treeview-menu">
-                        <li>
-                            <a href="@Url.Action("AddNewUser", "Admin")">
-                                <i class="fa fa-calendar-check-o"></i> Requests Pending
-                                <small class="label pull-right bg-red">2</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="pages/forms/advanced.html"><i class="fa fa-pencil-square-o"></i> Edit Existing</a>
-                        </li>
-                    </ul>
                 </li>
+
             }
             @if (User.IsInRole("Admin"))
             {
@@ -67,8 +60,12 @@
                         <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="@(route == "admin/adduser" ? "active" : "")"><a href="@Url.Action("AddNewUser", "Admin")"><i class="fa fa-plus-square-o"></i> Add New</a></li>
-                        <li><a href="pages/forms/advanced.html"><i class="fa fa-pencil-square-o"></i> Edit Existing</a></li>
+                        <li class="@(route == "admin/users/add" ? "active" : "")">
+                            <a href="@Url.Action("AddNewUser", "Admin")"><i class="fa fa-plus-square-o"></i> Add New</a>
+                        </li>
+                        <li class="@(route.Contains("admin/users/edit") ? "active" : "")">
+                            <a href="@Url.Action("ViewUsers", "Admin")"><i class="fa fa-pencil-square-o"></i> Edit Existing</a>
+                        </li>
                     </ul>
                 </li>
             }

@@ -192,6 +192,13 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Models\ViewModels\ViewMembersViewModel.cs" />
+    <Compile Include="Models\ViewModels\EditMemberViewModel.cs" />
+    <Compile Include="Models\ViewModels\LoginViewModel.cs" />
+    <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
+    <Compile Include="Models\ViewModels\SideBarViewModel.cs" />
+    <Compile Include="Controllers\SupervisorController.cs" />
+    <Compile Include="Service\SupervisorService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,7 +220,6 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Business\Absence.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Business\Alert.cs" />
     <Compile Include="Models\BookingDateRange.cs" />
     <Compile Include="Business\BookingResult.cs" />
@@ -224,7 +230,6 @@
     <Compile Include="Models\HolidayTotals.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\LoggedInStaffMember.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Business\Sickness.cs" />
     <Compile Include="Business\StaffMember.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -826,6 +831,9 @@
     <None Include="Views\Admin\ConfirmNewUser.cshtml" />
     <Content Include="Views\Shared\_AdminLteBreadcrumb.cshtml" />
     <Content Include="Views\Home\UserPanel.cshtml" />
+    <Content Include="Views\Supervisor\Pending.cshtml" />
+    <Content Include="Views\Admin\ViewUsers.cshtml" />
+    <Content Include="Views\Admin\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

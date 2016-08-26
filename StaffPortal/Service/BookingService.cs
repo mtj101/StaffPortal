@@ -86,5 +86,14 @@ namespace StaffPortal.Service
             return totals;
         }
 
+        public void ApproveHolidays(int[] holidayIds)
+        {
+            foreach (var holidayId in holidayIds)
+            {
+                _db.HolidayBooking.Find(holidayId).IsApproved = true;               
+            }
+            _db.SaveChanges();
+        }
+
     }
 }

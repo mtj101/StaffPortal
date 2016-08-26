@@ -19,30 +19,8 @@ namespace StaffPortal.Controllers
     [RoutePrefix("calendar")]
     public class CalendarApiController : ApiController
     {
-        #region initialisation and identity
-
-        private ApplicationUserManager _userManager;
         private BookingService _bookingService => new BookingService();
-
-        public CalendarApiController()
-        {
-        }
-
-        public CalendarApiController(ApplicationUserManager userManager)
-        {
-            UserManager = userManager;
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set { _userManager = value; }
-        }
-
-        #endregion
+        public ApplicationUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
 
         [Route("bookeduserholidays")]

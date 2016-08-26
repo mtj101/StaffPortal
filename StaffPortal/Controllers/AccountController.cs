@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -9,49 +10,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using StaffPortal.Models;
+using StaffPortal.Models.ViewModels;
 
 namespace StaffPortal.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
-
-        public AccountController()
-        {
-        }
-
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set
-            {
-                _signInManager = value;
-            }
-        }
-
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
+        public ApplicationSignInManager SignInManager => HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        public ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         [ChildActionOnly]
@@ -64,12 +31,13 @@ namespace StaffPortal.Controllers
                 userResult.Wait();
 
                 var db = new ApplicationDbContext();
-                var staffMember = db.StaffMember.SingleOrDefault(d => d.Id == userResult.Result.StaffMemberId);
+                var staffMember = db.StaffMember.Include(s => s.Department).SingleOrDefault(d => d.Id == userResult.Result.StaffMemberId);
 
                 var viewModel = new LoginPartialViewModel
                 {
                     Id = userResult.Result.Id,
-                    Name = staffMember.FirstNames + " " + staffMember.Surname
+                    Name = staffMember.FirstNames + " " + staffMember.Surname,
+                    Department = staffMember.Department.Name
                 };
                 return PartialView("_LoginPartial", viewModel);
             }
@@ -114,5 +82,7 @@ namespace StaffPortal.Controllers
     {
         public string Id { get; set; }
         public string Name { get; set; }
+        public string Department { get; set; }
+
     }
 }
