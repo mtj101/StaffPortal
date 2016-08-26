@@ -192,6 +192,10 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Migrations\201608261838259_StaffMemberAddressAndPhone.cs" />
+    <Compile Include="Migrations\201608261838259_StaffMemberAddressAndPhone.Designer.cs">
+      <DependentUpon>201608261838259_StaffMemberAddressAndPhone.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\ViewMembersViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMemberViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
@@ -863,6 +867,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201604091546396_AddForeignKeyForDepartmentToStaff.resx">
       <DependentUpon>201604091546396_AddForeignKeyForDepartmentToStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608261838259_StaffMemberAddressAndPhone.resx">
+      <DependentUpon>201608261838259_StaffMemberAddressAndPhone.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

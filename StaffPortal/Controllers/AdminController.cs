@@ -51,7 +51,24 @@ namespace StaffPortal.Controllers
             if (ModelState.IsValid)
             {
                 var db = new ApplicationDbContext();
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, StaffMember = new StaffMember { Surname = model.Surname, FirstNames = model.FirstNames, DepartmentId = model.DepartmentId } };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    StaffMember = new StaffMember
+                    {
+                        Surname = model.Surname,
+                        FirstNames = model.FirstNames,
+                        DepartmentId = model.DepartmentId,
+                        Address1 = model.Address1,
+                        Address2 = model.Address2,
+                        City = model.City,
+                        PostCode = model.PostCode,
+                        County = model.County,
+                        Country = model.Country
+                    }
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -131,7 +148,14 @@ namespace StaffPortal.Controllers
                 RoleName = currentRole,
                 DepartmentName = currentDepartment,
                 FirstNames = staffMember.FirstNames,
-                Surname = staffMember.Surname
+                Surname = staffMember.Surname,
+                PhoneNumber = staffMember.PhoneNumber,
+                Address1 = staffMember.Address1,
+                Address2 = staffMember.Address2,
+                City = staffMember.City,
+                County = staffMember.County,
+                PostCode = staffMember.PostCode,
+                Country = staffMember.Country
             };
 
             return View(viewModel);
@@ -156,11 +180,23 @@ namespace StaffPortal.Controllers
             UserManager.RemoveFromRole(identityUser.Id, currentRole);
             UserManager.AddToRole(identityUser.Id, viewModel.RoleName);
 
-            // change the department and name
+            // change the department
             int chosenDepartmentId = db.Department.Single(d => d.Name == viewModel.DepartmentName).Id;
             staffMember.DepartmentId = chosenDepartmentId;
+
+            // change personal details
             staffMember.FirstNames = viewModel.FirstNames;
             staffMember.Surname = viewModel.Surname;
+
+            staffMember.Address1 = viewModel.Address1;
+            staffMember.Address2 = viewModel.Address2;
+            staffMember.City = viewModel.City;
+            staffMember.PostCode = viewModel.PostCode;
+            staffMember.County = viewModel.County;
+            staffMember.Country = viewModel.Country;
+
+            staffMember.PhoneNumber = viewModel.PhoneNumber;
+
             db.SaveChanges();
 
             return RedirectToAction("ViewUsers");
