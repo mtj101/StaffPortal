@@ -167,12 +167,18 @@ namespace StaffPortal.Controllers
         [Route("users/edit", Name = "saveuserchanges")]
         public ActionResult EditUser(EditMemberViewModel viewModel)
         {
+            var db = new ApplicationDbContext();
+
             if (!ModelState.IsValid)
             {
-                return View();
-            }
+                var departments = db.Department.Select(d => new SelectListItem { Text = d.Name }).ToList();
+                var roles = db.Roles.Select(r => new SelectListItem { Text = r.Name }).ToList();
+                viewModel.Departments = departments;
+                viewModel.Roles = roles;
 
-            var db = new ApplicationDbContext();
+                return View(viewModel);
+            }
+            
 
             var staffMember = db.StaffMember.Single(s => s.Id == viewModel.Id);
             var identityUser = db.Users.Single(u => u.StaffMemberId == staffMember.Id);

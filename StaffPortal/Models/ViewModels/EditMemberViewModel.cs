@@ -14,6 +14,7 @@ namespace StaffPortal.Models.ViewModels
         public string RoleName { get; set; }
         public string FirstNames { get; set; }
         public string Surname { get; set; }
+        [RegularExpression(@"\d{9,}", ErrorMessage = "The PhoneNumber field contains an invalid number")]
         public string PhoneNumber { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }

@@ -33,6 +33,7 @@ namespace StaffPortal.Models.ViewModels
 
         public string Surname { get; set; }
 
+        [RegularExpression(@"\d{9,}", ErrorMessage = "The PhoneNumber field contains an invalid number")]
         public string PhoneNumber { get; set; }
 
         public string Address1 { get; set; }
