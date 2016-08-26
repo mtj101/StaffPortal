@@ -49,11 +49,12 @@ namespace StaffPortal.Controllers
             {
                 user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
             }
+            var db = new ApplicationDbContext();
 
             var totals = _bookingService.GetHolidayTotalsForUser(user.Id);
             user.HolidaysBooked = totals.Booked;
             user.HolidaysPending = totals.Pending;
-            user.MaximumHolidays = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerMember"]);
+            user.MaximumHolidays = int.Parse(db.ApplicationSettings.Find("maxHolidaysPerMember").Value);
 
             return View(user);
         }

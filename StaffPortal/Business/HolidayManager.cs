@@ -1,3 +1,4 @@
+using StaffPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,7 +37,9 @@ namespace StaffPortal.Business
 
         private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays, IEnumerable<Absence> departmentHolidays)
         {
-            int maxConcurrentHolidays = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerDepartment"]);
+            var db = new ApplicationDbContext();
+
+            int maxConcurrentHolidays = int.Parse(db.ApplicationSettings.Find("maxHolidaysPerDepartment").Value);
 
             var daysRequested = GetBusinessDays(start, end);
 

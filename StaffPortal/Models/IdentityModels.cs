@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using StaffPortal.Business;
+using System.ComponentModel.DataAnnotations;
 
 namespace StaffPortal.Models
 {
@@ -28,6 +29,14 @@ namespace StaffPortal.Models
         public virtual DbSet<Sickness> Sickness { get; set; }
         public virtual DbSet<Alert> Alert { get; set; }
         public virtual DbSet<StaffMember> StaffMember { get; set; }
+        public virtual DbSet<ApplicationSetting> ApplicationSettings { get; set; }
+    }
+
+    public class ApplicationSetting
+    {
+        [Key]
+        public string SettingName { get; set; }
+        public string Value { get; set; }
     }
 
     public class ApplicationUser : IdentityUser

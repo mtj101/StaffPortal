@@ -40,7 +40,7 @@ namespace StaffPortal.Service
             if (bookingResult.IsBooked)
             {
                 var currentHolidays = GetHolidayTotalsForUser(staffId);
-                int maxDaysForMember = int.Parse(ConfigurationManager.AppSettings["maxHolidaysPerMember"]);
+                int maxDaysForMember = int.Parse(_db.ApplicationSettings.Find("maxHolidaysPerMember").Value);
                 bool areEnoughDaysInBalance = currentHolidays.Booked + currentHolidays.Pending +
                                               holidayManager.GetNumberOfBusinessDays(start, end) <= maxDaysForMember;
 

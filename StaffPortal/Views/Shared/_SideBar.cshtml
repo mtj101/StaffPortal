@@ -54,7 +54,7 @@
             @if (User.IsInRole("Admin"))
             {
                 <li class="header">ADMIN TOOLS</li>
-                <li class="treeview @(route.StartsWith("admin") ? "active" : "")">
+                <li class="treeview @(route.StartsWith("admin/users") ? "active" : "")">
                     <a href="#">
                         <i class="fa fa-users"></i> <span>Manage Users</span>
                         <i class="fa fa-angle-left pull-right"></i>
@@ -68,6 +68,11 @@
                         </li>
                     </ul>
                 </li>
+               <li class="@(route == "admin/settings" ? "active" : "")">
+                  <a href="@Url.Action("EditSettings", "Admin")">
+                     <i class="fa fa-cogs"></i> App Settings
+                  </a>
+               </li>
             }
         </ul>
     </section>

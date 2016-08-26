@@ -209,6 +209,39 @@ namespace StaffPortal.Controllers
 
             return RedirectToAction("ViewUsers");
         }
+
+        [Route("settings")]
+        public ActionResult EditSettings()
+        {
+            var db = new ApplicationDbContext();
+            var settings = db.ApplicationSettings.ToDictionary(s => s.SettingName, s => s.Value);
+
+            var viewModel = new EditSettingsViewModel
+            {
+                Settings = settings
+            };
+
+            return View(viewModel);
+        }
+
+
+        [Route("settings")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSettings(EditSettingsViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new ApplicationDbContext();
+                foreach (var setting in viewModel.Settings)
+                {
+                    db.ApplicationSettings.SingleOrDefault(s => s.SettingName == setting.Key).Value = setting.Value;
+                }
+                db.SaveChanges();
+            }
+
+            return View(viewModel);
+        }
     }
 
     public class UserCreationViewModel

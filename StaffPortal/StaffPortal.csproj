@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
+    <Compile Include="Models\ViewModels\EditSettingsViewModel.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Migrations\201608261838259_StaffMemberAddressAndPhone.cs" />
     <Compile Include="Migrations\201608261838259_StaffMemberAddressAndPhone.Designer.cs">
@@ -199,6 +200,10 @@
     <Compile Include="Migrations\201608261919420_StaffMemberDateOfBirth.cs" />
     <Compile Include="Migrations\201608261919420_StaffMemberDateOfBirth.Designer.cs">
       <DependentUpon>201608261919420_StaffMemberDateOfBirth.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201608262219204_AddApplicationSettingTable.cs" />
+    <Compile Include="Migrations\201608262219204_AddApplicationSettingTable.Designer.cs">
+      <DependentUpon>201608262219204_AddApplicationSettingTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ViewModels\ViewMembersViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMemberViewModel.cs" />
@@ -842,6 +847,7 @@
     <Content Include="Views\Supervisor\Pending.cshtml" />
     <Content Include="Views\Admin\ViewUsers.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
+    <Content Include="Views\Admin\EditSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -877,6 +883,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608261919420_StaffMemberDateOfBirth.resx">
       <DependentUpon>201608261919420_StaffMemberDateOfBirth.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608262219204_AddApplicationSettingTable.resx">
+      <DependentUpon>201608262219204_AddApplicationSettingTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
