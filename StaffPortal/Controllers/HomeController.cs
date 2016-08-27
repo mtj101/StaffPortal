@@ -54,7 +54,7 @@ namespace StaffPortal.Controllers
             var totals = _bookingService.GetHolidayTotalsForUser(user.Id);
             user.HolidaysBooked = totals.Booked;
             user.HolidaysPending = totals.Pending;
-            user.MaximumHolidays = int.Parse(db.ApplicationSettings.Find("maxHolidaysPerMember").Value);
+            user.MaximumHolidays = int.Parse(db.ApplicationSettings.Find("Holidays Per Member").Value);
 
             return View(user);
         }

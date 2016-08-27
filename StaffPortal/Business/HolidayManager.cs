@@ -39,7 +39,7 @@ namespace StaffPortal.Business
         {
             var db = new ApplicationDbContext();
 
-            int maxConcurrentHolidays = int.Parse(db.ApplicationSettings.Find("maxHolidaysPerDepartment").Value);
+            int maxConcurrentHolidays = int.Parse(db.ApplicationSettings.Find("Holidays Per Department").Value);
 
             var daysRequested = GetBusinessDays(start, end);
 
