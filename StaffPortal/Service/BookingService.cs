@@ -11,11 +11,15 @@ namespace StaffPortal.Service
 {
     public class BookingService
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
-        private HolidayManager holidayManager = new HolidayManager();
+        private ApplicationDbContext _db;
+        private HolidayManager holidayManager;
 
         public BookingService()
         {
+            _db = new ApplicationDbContext();
+
+            int maxConcurrentHolidays = int.Parse(_db.ApplicationSettings.Find("Holidays Per Department").Value);
+            holidayManager = new HolidayManager(maxConcurrentHolidays);
         }
 
         public async Task<BookingResult> BookHoliday(int staffId, DateTime start, DateTime end)

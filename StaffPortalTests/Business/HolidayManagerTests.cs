@@ -13,7 +13,7 @@ namespace StaffPortalTests.Business
         [SetUp]
         public void Setup()
         {
-            holidayManager = new HolidayManager();
+            holidayManager = new HolidayManager(2);
         }
 
         [Test]

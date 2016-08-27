@@ -8,6 +8,13 @@ namespace StaffPortal.Business
 {
     public class HolidayManager
     {
+        private readonly int _maxHolidaysPerDepartment;
+
+        public HolidayManager(int maxHolidaysPerDepartment)
+        {
+            _maxHolidaysPerDepartment = maxHolidaysPerDepartment;
+        }
+
         /// <summary>
         /// Returns a <see cref="BookingResult"/> indicating success of booking, and if successful will contain a <see cref="HolidayBooking"/> object.
         /// </summary>
@@ -37,10 +44,6 @@ namespace StaffPortal.Business
 
         private bool ValidateBooking(DateTime start, DateTime end, IEnumerable<Absence> unavailableDays, IEnumerable<Absence> departmentHolidays)
         {
-            var db = new ApplicationDbContext();
-
-            int maxConcurrentHolidays = int.Parse(db.ApplicationSettings.Find("Holidays Per Department").Value);
-
             var daysRequested = GetBusinessDays(start, end);
 
             // if duplicate days in unavailable days, just keep one
@@ -71,7 +74,7 @@ namespace StaffPortal.Business
                     }
                 }
             }
-            bool clashDepartment = departmentBookedDays.GroupBy(d => d).Any(dt => daysRequested.Contains(dt.Key) && dt.Count() >= maxConcurrentHolidays);
+            bool clashDepartment = departmentBookedDays.GroupBy(d => d).Any(dt => daysRequested.Contains(dt.Key) && dt.Count() >= _maxHolidaysPerDepartment);
 
 
             return !(clashUnavailable || clashDepartment);
