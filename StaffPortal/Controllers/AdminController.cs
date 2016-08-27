@@ -157,7 +157,8 @@ namespace StaffPortal.Controllers
                 City = staffMember.City,
                 County = staffMember.County,
                 PostCode = staffMember.PostCode,
-                Country = staffMember.Country
+                Country = staffMember.Country,
+                Email = identityUser.Email
             };
 
             return View(viewModel);
@@ -181,12 +182,20 @@ namespace StaffPortal.Controllers
             
 
             var staffMember = db.StaffMember.Single(s => s.Id == viewModel.Id);
-            var identityUser = db.Users.Single(u => u.StaffMemberId == staffMember.Id);
+            var identityUser = UserManager.FindById(db.Users.Single(u => u.StaffMemberId == staffMember.Id).Id);
 
             // change the role
             string currentRole = UserManager.GetRoles(identityUser.Id).Single();
             UserManager.RemoveFromRole(identityUser.Id, currentRole);
             UserManager.AddToRole(identityUser.Id, viewModel.RoleName);
+
+            // change the username
+            if (identityUser.Email != viewModel.Email)
+            {
+                identityUser.Email = viewModel.Email;
+                identityUser.UserName = viewModel.Email;
+                UserManager.Update(identityUser);
+            }
 
             // change the department
             int chosenDepartmentId = db.Department.Single(d => d.Name == viewModel.DepartmentName).Id;

@@ -22,5 +22,6 @@ namespace StaffPortal.Models.ViewModels
         public string County { get; set; }
         public string PostCode { get; set; }
         public string Country { get; set; }
+        public string Email { get; set; }
     }
 }
