@@ -4,38 +4,46 @@
 }
 
 <div class="box box-primary">
-   <form action="@Url.Action("ApproveHoliday")" method="post">
+
       <div class="box-body">
-         <table class="table">
-            <thead>
-               <tr>
-                  <th>Select</th>
-                  <th>Name</th>
-                  <th>Department</th>
-                  <th>From</th>
-                  <th>To</th>
-               </tr>
-            </thead>
-            <tbody>
-               @foreach (var booking in Model)
-               {
-                  <tr>
-                     <td><input type="checkbox" name="holidayIds" value="@booking.Id" /></td>
-                     <td>@(booking.StaffMember.FirstNames + " " + booking.StaffMember.Surname)</td>
-                     <td>@booking.StaffMember.Department.Name</td>
-                     <td>@booking.Start.ToShortDateString()</td>
-                     <td>@booking.End.ToShortDateString()</td>
-                  </tr>
-               }
-            </tbody>
-         </table>
-      </div>
+         <form action="@Url.Action("ApproveHoliday")" method="post">
+            <div class="row">
+               <div class="col-md-12 col-md-offset-0">
+                  <table class="table">
+                     <thead>
+                        <tr>
+                           <th>Select</th>
+                           <th>Name</th>
+                           <th>Department</th>
+                           <th>From</th>
+                           <th>To</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        @foreach (var booking in Model)
+                        {
+                           <tr>
+                              <td><input type="checkbox" name="holidayIds" value="@booking.Id" /></td>
+                              <td>@booking.End.ToShortDateString()</td>
+                              <td>@(booking.StaffMember.FirstNames + " " + booking.StaffMember.Surname)</td>
+                              <td>@booking.StaffMember.Department.Name</td>
+                              <td>@booking.Start.ToShortDateString()</td>
+                           </tr>
+                        }
+                     </tbody>
+                  </table>
+               </div>
+               <div class="col-md-12 col-md-offset-0">
+                  <input type="submit" class="btn btn-primary" value="Approve">
+               </div>
+            </div>
 
-      <div class="box-footer">
-         <input type="submit" class="btn btn-primary" value="Approve">
-      </div>
+         </form>
+   </div>
 
-   </form>
+
+
+
 </div>
 
 
