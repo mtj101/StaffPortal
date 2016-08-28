@@ -67,8 +67,8 @@ namespace StaffPortal.Service
             var staffIds = staff.Select(s => s.Id).ToArray();
 
             var sickness = _db.Sickness
-                .Include(s => s.User)
-                .Where(s => staffIds.Contains(s.User.Id))
+                .Include(s => s.StaffMember)
+                .Where(s => staffIds.Contains(s.StaffMember.Id))
                 .ToList();
 
             return sickness;
@@ -76,7 +76,7 @@ namespace StaffPortal.Service
 
         public void AddSickness(Sickness sickness)
         {
-            _db.StaffMember.Attach(sickness.User);
+            _db.StaffMember.Attach(sickness.StaffMember);
             _db.Sickness.Add(sickness);
             _db.SaveChanges();
         }

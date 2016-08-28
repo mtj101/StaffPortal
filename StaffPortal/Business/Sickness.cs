@@ -7,6 +7,6 @@ namespace StaffPortal.Business
     {
         public string Reason { get; set; }
 
-        public StaffMember User { get; set; }
+        public StaffMember StaffMember { get; set; }
     }
 }

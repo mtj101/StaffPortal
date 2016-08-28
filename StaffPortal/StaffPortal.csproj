@@ -197,6 +197,10 @@
     <Compile Include="Migrations\201608281256048_RemoveExplicitForeignKeyFromSickness.Designer.cs">
       <DependentUpon>201608281256048_RemoveExplicitForeignKeyFromSickness.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608281301459_RenameStaffMemberPropertyOfSickness.cs" />
+    <Compile Include="Migrations\201608281301459_RenameStaffMemberPropertyOfSickness.Designer.cs">
+      <DependentUpon>201608281301459_RenameStaffMemberPropertyOfSickness.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ViewModels\AddSicknessViewModel.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
@@ -905,6 +909,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608281256048_RemoveExplicitForeignKeyFromSickness.resx">
       <DependentUpon>201608281256048_RemoveExplicitForeignKeyFromSickness.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608281301459_RenameStaffMemberPropertyOfSickness.resx">
+      <DependentUpon>201608281301459_RenameStaffMemberPropertyOfSickness.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

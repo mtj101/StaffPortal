@@ -58,7 +58,7 @@ namespace StaffPortal.Controllers
             var sicknesses = SupervisorService.GetSicknessesForStaff(staffForSupervisor);
 
             var staffSicknesses = staffForSupervisor
-                .ToDictionary(staff => staff, staff => sicknesses.Where(sickness => sickness.User == staff).ToList());
+                .ToDictionary(staff => staff, staff => sicknesses.Where(sickness => sickness.StaffMember == staff).ToList());
 
             var viewModel = new SicknessViewModel
             {
@@ -98,7 +98,7 @@ namespace StaffPortal.Controllers
                     Start = viewModel.Start,
                     End = viewModel.End,
                     Reason = viewModel.Reason,
-                    User = staffMember
+                    StaffMember = staffMember
                 };
 
                 SupervisorService.AddSickness(sickness);
