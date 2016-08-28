@@ -14,12 +14,18 @@
          {
             <div class="form-group">
                @Html.LabelFor(m => m.Settings[setting.Key], setting.Key, new { @class = "control-label col-md-3" })
-               <div class="col-md-9">
+               <div class="col-md-6">
                   @Html.EditorFor(m => m.Settings[setting.Key], new { htmlAttributes = new { @class = "form-control" } })
+               </div>
+               <div class="col-md-3">
                </div>
             </div>
          }
-         <input type="submit" value="Update Settings" class="btn btn-primary"  />
+         <div class="form-group">
+            <div class="col-md-offset-3 col-md-6">
+               <input type="submit" value="Update Settings" class="btn btn-primary pull-right" />
+            </div>
+         </div>      
       </form>
    </div>
 </div>
