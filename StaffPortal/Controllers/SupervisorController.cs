@@ -98,7 +98,7 @@ namespace StaffPortal.Controllers
                     Start = viewModel.Start,
                     End = viewModel.End,
                     Reason = viewModel.Reason,
-                    StaffId = viewModel.StaffId
+                    User = staffMember
                 };
 
                 SupervisorService.AddSickness(sickness);

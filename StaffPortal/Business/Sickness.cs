@@ -7,9 +7,6 @@ namespace StaffPortal.Business
     {
         public string Reason { get; set; }
 
-        public int StaffId { get; set; }
-
-        [ForeignKey(nameof(StaffId))]
         public StaffMember User { get; set; }
     }
 }
