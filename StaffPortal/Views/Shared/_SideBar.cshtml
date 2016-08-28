@@ -49,6 +49,11 @@
                         }                      
                     </a>
                 </li>
+               <li class="@(route == "supervisor/sickness" ? "active" : "")">
+                  <a href="@Url.Action("Sickness", "Supervisor")">
+                     <i class="fa fa-user-md"></i> Manage Sicknesses
+                  </a>
+               </li>
 
             }
             @if (User.IsInRole("Admin"))
@@ -61,7 +66,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="@(route == "admin/users/add" ? "active" : "")">
-                            <a href="@Url.Action("AddNewUser", "Admin")"><i class="fa fa-plus-square-o"></i> Add New</a>
+                            <a href="@Url.Action("AddNewUser", "Admin")"><i class="fa fa-user-plus"></i> Add New</a>
                         </li>
                         <li class="@(route.Contains("admin/users/edit") ? "active" : "")">
                             <a href="@Url.Action("ViewUsers", "Admin")"><i class="fa fa-pencil-square-o"></i> Edit Existing</a>

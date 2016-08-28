@@ -189,6 +189,11 @@
     <Compile Include="Business\DateTimeExtensions.cs" />
     <Compile Include="Business\HolidayManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Migrations\201608280246329_StaffIdForeignKey.cs" />
+    <Compile Include="Migrations\201608280246329_StaffIdForeignKey.Designer.cs">
+      <DependentUpon>201608280246329_StaffIdForeignKey.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ViewModels\AddSicknessViewModel.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CalendarApiController.cs" />
     <Compile Include="Models\ViewModels\EditSettingsViewModel.cs" />
@@ -205,12 +210,14 @@
     <Compile Include="Migrations\201608262219204_AddApplicationSettingTable.Designer.cs">
       <DependentUpon>201608262219204_AddApplicationSettingTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\SicknessViewModel.cs" />
     <Compile Include="Models\ViewModels\ViewMembersViewModel.cs" />
     <Compile Include="Models\ViewModels\EditMemberViewModel.cs" />
     <Compile Include="Models\ViewModels\LoginViewModel.cs" />
     <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\ViewModels\SideBarViewModel.cs" />
     <Compile Include="Controllers\SupervisorController.cs" />
+    <Compile Include="Service\StaffService.cs" />
     <Compile Include="Service\SupervisorService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -848,6 +855,8 @@
     <Content Include="Views\Admin\ViewUsers.cshtml" />
     <Content Include="Views\Admin\EditUser.cshtml" />
     <Content Include="Views\Admin\EditSettings.cshtml" />
+    <Content Include="Views\Supervisor\Sickness.cshtml" />
+    <Content Include="Views\Supervisor\AddSickness.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -886,6 +895,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608262219204_AddApplicationSettingTable.resx">
       <DependentUpon>201608262219204_AddApplicationSettingTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608280246329_StaffIdForeignKey.resx">
+      <DependentUpon>201608280246329_StaffIdForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

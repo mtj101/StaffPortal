@@ -1,0 +1,44 @@
+﻿@model StaffPortal.Models.ViewModels.SicknessViewModel
+@{
+    ViewBag.Title = "Sickness";
+}
+
+<div class="box box-primary">
+   <div class="box-header with-border">
+      <h3 class="box-title">Active Users</h3>
+   </div>
+   <div class="box-body">
+      <table class="table">
+         <thead>
+            <tr>           
+               <th>Name</th>
+               <th>Sicknesses</th>   
+               <th></th>            
+            </tr>
+         </thead>
+         <tbody>
+            @foreach (var staffSickness in Model.StaffSicknesses)
+            {
+               <tr>
+                  <td>
+                     @staffSickness.Key.FirstNames @staffSickness.Key.Surname
+                  </td>
+                  <td>
+                     <ul>
+                        @foreach (var sickness in staffSickness.Value)
+                        {
+                           <li>@sickness.Start.ToShortDateString() - @sickness.End.ToShortDateString() : @sickness.Reason</li>
+                        }
+                     </ul>
+                  </td>
+                  <td>
+                     <a href="@Url.RouteUrl("addSicknessForMember", new { memberId = staffSickness.Key.Id })" class="btn btn-primary">Add New</a>
+                  </td>
+               </tr>
+            }
+         </tbody>
+
+      </table>
+
+   </div>
+</div>
