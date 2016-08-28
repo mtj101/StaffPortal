@@ -40,8 +40,12 @@ namespace StaffPortal.Controllers
         [HttpPost]
         public ActionResult ApproveHoliday(int[] holidayIds)
         {
-            var bookingService = new BookingService();
-            bookingService.ApproveHolidays(holidayIds);
+            if (holidayIds != null)
+            {
+                var bookingService = new BookingService();
+                bookingService.ApproveHolidays(holidayIds);
+            }
+
             return RedirectToAction("Pending");
         }
 
