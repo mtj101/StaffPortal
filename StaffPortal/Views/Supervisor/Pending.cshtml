@@ -24,10 +24,10 @@
                         {
                            <tr>
                               <td><input type="checkbox" name="holidayIds" value="@booking.Id" /></td>
-                              <td>@booking.End.ToShortDateString()</td>
                               <td>@(booking.StaffMember.FirstNames + " " + booking.StaffMember.Surname)</td>
                               <td>@booking.StaffMember.Department.Name</td>
                               <td>@booking.Start.ToShortDateString()</td>
+                              <td>@booking.End.ToShortDateString()</td>                                                      
                            </tr>
                         }
                      </tbody>
