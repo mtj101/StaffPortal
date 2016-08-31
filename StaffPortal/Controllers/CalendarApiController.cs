@@ -21,7 +21,7 @@ namespace StaffPortal.Controllers
     {
         private BookingService _bookingService => new BookingService();
         public ApplicationUserManager UserManager => HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
+        private AlertService _alertService = new AlertService();
 
         [Route("bookeduserholidays")]
         [HttpGet]
@@ -78,6 +78,7 @@ namespace StaffPortal.Controllers
 
             if (bookingResult.IsBooked)
             {
+                _alertService.SendHolidayRequestAlert(staffId);
                 return Ok();
             }
 

@@ -225,6 +225,7 @@
     <Compile Include="Models\ViewModels\RegisterViewModel.cs" />
     <Compile Include="Models\ViewModels\SideBarViewModel.cs" />
     <Compile Include="Controllers\SupervisorController.cs" />
+    <Compile Include="Service\AlertService.cs" />
     <Compile Include="Service\StaffService.cs" />
     <Compile Include="Service\SupervisorService.cs" />
     <Compile Include="Global.asax.cs">
