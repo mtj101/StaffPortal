@@ -88,5 +88,22 @@ namespace StaffPortal.Service
             return supervisors;
         }
 
+        public List<Alert> GetAlertsForUser(string userId)
+        {
+            var alerts = _db.Alert.Where(a => a.ForUser.Id == userId).Where(a => a.IsRead == false).ToList();
+            return alerts;
+        }
+
+        public void RemoveAlert(int alertId)
+        {
+            var alert = _db.Alert.SingleOrDefault(a => a.Id == alertId);
+
+            if (alert == null)
+                throw new ArgumentException();
+
+            _db.Alert.Remove(alert);
+            _db.SaveChanges();
+        }
+
     }
 }

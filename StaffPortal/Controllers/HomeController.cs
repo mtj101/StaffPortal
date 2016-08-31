@@ -18,7 +18,8 @@ namespace StaffPortal.Controllers
     public class HomeController : Controller
     {
         private ApplicationUserManager _userManager;
-        private BookingService _bookingService => new BookingService();
+        private BookingService _bookingService = new BookingService();
+        private AlertService _alertService = new AlertService();
 
         public HomeController()
         {
@@ -92,6 +93,13 @@ namespace StaffPortal.Controllers
             }
 
             return View("_SideBar", viewModel);
+        }
+
+        [ChildActionOnly]
+        public ActionResult GetAlerts()
+        {
+            var alerts = _alertService.GetAlertsForUser(User.Identity.GetUserId());
+            return View("_GetAlerts", alerts);
         }
     }
 }

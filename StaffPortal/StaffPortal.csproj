@@ -189,6 +189,7 @@
     <Compile Include="Business\DateTimeExtensions.cs" />
     <Compile Include="Business\HolidayManager.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AlertApiController.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.Designer.cs">
       <DependentUpon>201608280246329_StaffIdForeignKey.cs</DependentUpon>
@@ -839,6 +840,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -866,6 +868,7 @@
     <Content Include="Views\Admin\EditSettings.cshtml" />
     <Content Include="Views\Supervisor\Sickness.cshtml" />
     <Content Include="Views\Supervisor\AddSickness.cshtml" />
+    <Content Include="Views\Home\_GetAlerts.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

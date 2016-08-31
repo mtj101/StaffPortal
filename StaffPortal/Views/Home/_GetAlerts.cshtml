@@ -1,0 +1,53 @@
+﻿@model List<StaffPortal.Business.Alert>
+@{
+    Layout = null;
+    var count = Model.Count;
+}
+
+<li class="dropdown notifications-menu">
+   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <i class="fa fa-bell-o"></i>
+      @if (Model.Any())
+      {
+         <span class="label label-warning alert-count">@Model.Count</span>
+      }     
+   </a>
+   <ul class="dropdown-menu">
+      <li class="header">You have <span class="alert-count">@Model.Count</span> alerts</li>
+      <li>
+         <ul class="menu">
+            @foreach (var alert in Model)
+            {
+               <li data-alertid="@alert.Id">
+                  <a>
+                     <i class="fa fa-warning text-yellow"></i> @alert.Created.ToLocalTime().ToShortDateString() - @alert.Created.ToLocalTime().ToShortTimeString()    
+                     <i class="fa fa-times pull-right text-yellow alert-dismiss"></i>                
+                     <div style="white-space: normal">
+                        @alert.Message
+                     </div>                
+                  </a>
+               </li>
+            }
+         </ul>
+      </li>
+      
+   </ul>
+</li>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="alertsModal">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title"><i class="fa fa-bell-o"></i> Alerts</h4>
+         </div>
+         <div class="modal-body">
+            <p>One fine body&hellip;</p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
