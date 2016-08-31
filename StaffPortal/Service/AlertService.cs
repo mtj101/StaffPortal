@@ -66,6 +66,18 @@ namespace StaffPortal.Service
             SendAlert(usersToSendAlertTo, message);
         }
 
+        public void SendHolidayApprovalAlert(int[] holidayIds)
+        {
+            var holidayBookings = _db.HolidayBooking.Include(h => h.StaffMember).Where(h => holidayIds.Contains(h.Id)).ToList();
+
+            foreach (var holidayBooking in holidayBookings)
+            {
+                var user = _db.Users.Single(u => u.StaffMemberId == holidayBooking.StaffMember.Id);
+                string approvalMessage = $"Your holiday booked for {holidayBooking.Start.ToShortDateString()} - {holidayBooking.End.ToShortDateString()} has been approved";
+                SendAlert(user, approvalMessage);
+            }
+        }
+
         private List<ApplicationUser> GetSupervisorsForDepartment(Department department)
         {
             var supervisors = _db.Users

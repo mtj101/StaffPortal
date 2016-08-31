@@ -19,7 +19,8 @@ namespace StaffPortal.Controllers
         public ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private readonly SupervisorService SupervisorService = new SupervisorService();
         private readonly StaffService StaffService = new StaffService();
-        
+        private readonly AlertService alertService = new AlertService();
+
         [Route("pending")]
         public ActionResult Pending()
         {
@@ -44,6 +45,7 @@ namespace StaffPortal.Controllers
             {
                 var bookingService = new BookingService();
                 bookingService.ApproveHolidays(holidayIds);
+                alertService.SendHolidayApprovalAlert(holidayIds);
             }
 
             return RedirectToAction("Pending");
