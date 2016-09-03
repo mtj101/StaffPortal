@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StaffPortal.Business.HolidayBooking>
+﻿@model StaffPortal.Controllers.SupervisorApprovalViewModel
 @{
     ViewBag.Title = "Pending Requests";
 }
@@ -12,29 +12,47 @@
                   <table class="table">
                      <thead>
                         <tr>
-                           <th>Select</th>
+
                            <th>Name</th>
                            <th>Department</th>
                            <th>From</th>
                            <th>To</th>
+                           <th>Approve</th>
+                           <th>Deny</th>
                         </tr>
                      </thead>
                      <tbody>
-                        @foreach (var booking in Model)
+                        @*@foreach (var booking in Model.Bookings)
                         {
                            <tr>
-                              <td><input type="checkbox" name="holidayIds" value="@booking.Id" /></td>
                               <td>@(booking.StaffMember.FirstNames + " " + booking.StaffMember.Surname)</td>
                               <td>@booking.StaffMember.Department.Name</td>
                               <td>@booking.Start.ToShortDateString()</td>
-                              <td>@booking.End.ToShortDateString()</td>                                                      
+                              <td>@booking.End.ToShortDateString()</td>     
+                              <td><input type="radio" name="@booking.IsApproved" value="true" /></td>
+                              <td><input type="radio" name="@booking.IsApproved" value="false" /></td>
+                              <td>@Html.RadioButtonFor(m => m.Bookings[booking].IsApproved, "true")                                    
+                           </tr>
+                        }*@
+                        @for (int i = 0; i < Model.SupervisorApprovals.Count; i++)
+                        {
+                           <tr>
+                              <td>@Model.SupervisorApprovals[i].Name</td>
+                              <td>@Model.SupervisorApprovals[i].Department</td>
+                              <td>@Model.SupervisorApprovals[i].Start</td>
+                              <td>@Model.SupervisorApprovals[i].End</td>
+                              @*<td><input type="radio" name="@Model.Bookings[i].IsApproved" value="true" /></td>
+                              <td><input type="radio" name="@Model.Bookings[i].IsApproved" value="false" /></td>*@
+                              <td>@Html.RadioButtonFor(m => m.SupervisorApprovals[i].IsApproved, "true")</td>
+                              <td>@Html.RadioButtonFor(m => m.SupervisorApprovals[i].IsApproved, "false")</td>
+                              @Html.HiddenFor(m => m.SupervisorApprovals[i].HolidayBookingId)
                            </tr>
                         }
                      </tbody>
                   </table>
                </div>
                <div class="col-md-12 col-md-offset-0">
-                  <input type="submit" class="btn btn-primary" value="Approve">
+                  <input type="submit" class="btn btn-primary pull-right" value="Confirm Selections">
                </div>
             </div>
 

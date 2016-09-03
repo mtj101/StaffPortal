@@ -98,7 +98,7 @@ namespace StaffPortal.Controllers
         [ChildActionOnly]
         public ActionResult GetAlerts()
         {
-            var alerts = _alertService.GetAlertsForUser(User.Identity.GetUserId());
+            var alerts = _alertService.GetAlertsForUser(User.Identity.GetUserId()).OrderByDescending(a => a.Created).ToList();
             return View("_GetAlerts", alerts);
         }
     }

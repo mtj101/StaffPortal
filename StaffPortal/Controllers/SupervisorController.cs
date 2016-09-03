@@ -35,17 +35,40 @@ namespace StaffPortal.Controllers
                 pendingHolidays = SupervisorService.GetAllPendingHolidays();
             }
 
-            return View(pendingHolidays);
+            var viewModel = new SupervisorApprovalViewModel
+            {
+                SupervisorApprovals = pendingHolidays.Select(h => new SupervisorApprovalViewModel.SupervisorApproval
+                {
+                    HolidayBookingId = h.Id,
+                    Name = $"{h.StaffMember.FirstNames} {h.StaffMember.Surname}",
+                    Department = h.StaffMember.Department.Name,
+                    Start = h.Start.ToShortDateString(),
+                    End = h.End.ToShortDateString(),
+                    IsApproved = null
+                }).ToList()
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
-        public ActionResult ApproveHoliday(int[] holidayIds)
+        public ActionResult ApproveHoliday(SupervisorApprovalViewModel viewModel)
         {
-            if (holidayIds != null)
+            if (ModelState.IsValid)//approve != null)
             {
                 var bookingService = new BookingService();
-                bookingService.ApproveHolidays(holidayIds);
-                alertService.SendHolidayApprovalAlert(holidayIds);
+
+                // approve 
+                var approvedHolidays = viewModel.SupervisorApprovals.Where(b => b.IsApproved == true).Select(b => b.HolidayBookingId).ToArray();
+                alertService.SendHolidayApprovalAlert(approvedHolidays);
+                bookingService.ApproveHolidays(approvedHolidays);
+                
+
+                // deny
+                var deniedHolidays = viewModel.SupervisorApprovals.Where(b => b.IsApproved == false).Select(b => b.HolidayBookingId).ToArray();
+                alertService.sendHolidayDenialAlert(deniedHolidays);
+                bookingService.DenyHolidays(deniedHolidays);
+                           
             }
 
             return RedirectToAction("Pending");
@@ -114,4 +137,21 @@ namespace StaffPortal.Controllers
         }
 
     }
+
+    public class SupervisorApprovalViewModel
+    {
+        public List<SupervisorApproval> SupervisorApprovals { get; set; }
+
+        public class SupervisorApproval
+        {
+            public int HolidayBookingId { get; set; }
+            public string Name { get; set; }
+            public string Department { get; set; }
+            public string Start { get; set; }
+            public string End { get; set; }
+            public bool? IsApproved { get; set; }
+        }
+    }
+
+
 }

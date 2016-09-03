@@ -78,6 +78,18 @@ namespace StaffPortal.Service
             }
         }
 
+        internal void sendHolidayDenialAlert(int[] deniedHolidays)
+        {
+            var holidayBookings = _db.HolidayBooking.Include(h => h.StaffMember).Where(h => deniedHolidays.Contains(h.Id)).ToList();
+
+            foreach (var holidayBooking in holidayBookings)
+            {
+                var user = _db.Users.Single(u => u.StaffMemberId == holidayBooking.StaffMember.Id);
+                string denialMessage = $"Your holiday booked for {holidayBooking.Start.ToShortDateString()} - {holidayBooking.End.ToShortDateString()} was denied";
+                SendAlert(user, denialMessage);
+            }
+        }
+
         private List<ApplicationUser> GetSupervisorsForDepartment(Department department)
         {
             var supervisors = _db.Users

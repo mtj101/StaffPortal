@@ -8,7 +8,7 @@ namespace StaffPortal.Business
 
         public StaffMember StaffMember { get; set; }
 
-        private HolidayBooking() { }
+        public HolidayBooking() { }
 
         public HolidayBooking(StaffMember staffMember, DateTime start, DateTime end)
         {

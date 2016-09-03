@@ -64,6 +64,8 @@ namespace StaffPortal.Service
             return bookingResult;
         }
 
+
+
         public HolidayTotals GetHolidayTotalsForUser(int staffMember)
         {
             var db = new ApplicationDbContext();
@@ -95,6 +97,16 @@ namespace StaffPortal.Service
             foreach (var holidayId in holidayIds)
             {
                 _db.HolidayBooking.Find(holidayId).IsApproved = true;               
+            }
+            _db.SaveChanges();
+        }
+
+        public void DenyHolidays(int[] deniedHolidays)
+        {
+            foreach (var holidayId in deniedHolidays)
+            {
+                var booking = _db.HolidayBooking.Find(holidayId);
+                _db.HolidayBooking.Remove(booking);
             }
             _db.SaveChanges();
         }
