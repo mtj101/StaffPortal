@@ -1,0 +1,179 @@
+﻿@model StaffPortal.Controllers.MessagesViewModel
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewBag.Title = "Messages";
+}
+
+<span id="currentUser" style="display: none">@User.Identity.GetUserId()</span>
+
+<div class="row">
+   <div class="col-md-3 col-md-push-9">
+      <div class="box box-solid">
+         <div class="box-header with-border">
+            <h3 class="box-title">Mail</h3>
+         </div>
+         <div class="box-body no-padding">
+            <ul class="nav nav-pills nav-stacked">
+               <li class="@(Model.Section == StaffPortal.Service.MessageType.Received ? "active" : "")"><a href="@Url.Action("Messages", new { Section = "inbox" })"><i class="fa fa-inbox" aria-hidden="true"></i> Inbox</a></li>
+               <li class="@(Model.Section == StaffPortal.Service.MessageType.Sent ? "active" : "")"><a href="@Url.Action("Messages", new { Section = "sent" })"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Sent</a></li>
+            </ul>
+         </div>
+      </div>
+      <button class="btn btn-primary btn-block margin-bottom" data-toggle="modal" data-target="#newmessagemodal" id="newmessagebutton"><i class="fa fa-plus-square-o"></i> New Message</button>
+   </div>
+
+   <div class="modal fade" id="newmessagemodal" tabindex="-1" role="dialog" aria-labelledby="newmessagemodal-label">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <form action="@Url.Action("SendMessage")" method="post">
+               <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="newmessagemodal-label">Send Message</h4>
+               </div>
+               <div class="modal-body">
+
+                  <div class="form-group">
+                     <label for="receiverId">Recipient</label>
+                     <select name="receiverId" id="receiverId" class="form-control">
+                        @foreach (var staffMember in Model.Staff)
+                        {
+                           <option value="@staffMember.Id">@(staffMember.StaffMember.FirstNames + " " + staffMember.StaffMember.Surname)</option>
+                        }
+                     </select>
+                  </div>
+                  <div class="form-group">
+                     <label for="subject">Subject</label>
+                     <input type="text" name="subject" id="subject" class="form-control" />
+                  </div>
+                  <div class="form-group">
+                     <label for="body">Message</label>
+                     <textarea name="body" id="body" class="form-control"></textarea>
+                  </div>
+
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                  <input type="submit" value="Send" class="btn btn-primary" />
+               </div>
+            </form>
+         </div>
+      </div>
+   </div>
+
+   <div class="col-md-9 col-md-pull-3">
+      <div class="box box-primary">
+         <form method="post" action="@Url.Action("DeleteMessages")">
+            <div class="box-header with-border">
+               <h3 class="box-title">Messages</h3>
+            </div>
+            <div class="box-body">
+               <table class="table">
+                  <thead>
+                     <tr>
+                        <th>
+                        </th>
+                        @if (Model.Section == StaffPortal.Service.MessageType.Received)
+                        {
+                           <th>
+                              From
+                           </th>
+                        }
+                        @if (Model.Section == StaffPortal.Service.MessageType.Sent)
+                        {
+                            <th>
+                               To
+                            </th>
+                        }
+                        <th>
+                           Subject
+                        </th>
+                        <th>
+                           Date
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody id="message-tablebody">
+                     @foreach (var message in Model.Messages)
+                     {
+                        <tr class="@(message.IsRead || Model.Section == StaffPortal.Service.MessageType.Sent ? "mailbox mailbox-read" : "mailbox mailbox-unread")">
+
+                           @if (Model.Section == StaffPortal.Service.MessageType.Received)
+                           {
+                              <td>
+                                 <input type="checkbox" name="@message.Id" />
+                              </td>
+                              <td>
+                                 <span href="#" data-messageid="@message.Id" class="mailbox-link">@message.Sender.StaffMember.FirstNames @message.Sender.StaffMember.Surname</span>
+                              </td>
+                           }
+                           @if (Model.Section == StaffPortal.Service.MessageType.Sent)
+                           {
+                              <td>
+                              </td>
+                              <td>
+                                 <span href="#" data-messageid="@message.Id" class="mailbox-link">@message.Receiver.StaffMember.FirstNames @message.Receiver.StaffMember.Surname</span>
+                              </td>
+                           }
+
+                           <td>
+                              <span href="#" data-messageid="@message.Id" class="mailbox-link">@message.Subject</span>
+                           </td>
+                           <td>
+                              <span href="#" data-messageid="@message.Id" class="mailbox-link">@message.Created.ToString("dd/MM/yyyy HH:mm")</span>
+                           </td>
+                        </tr>
+                     }
+                  </tbody>
+               </table>
+            </div>
+            <div class="box-footer">
+               <input type="submit" value="Delete" class="btn btn-warning" />
+               <div class="btn-group pull-right">
+                  @if (Model.CurrentPage == 1)
+                  {
+                     <a href="#" class="btn btn-primary disabled">&lsaquo;&lsaquo; Prev 10</a>
+                  }
+                  else
+                  {
+                     <a href="@Url.RouteUrl("Messages", new { section = Model.Section == StaffPortal.Service.MessageType.Received ? "inbox" : "sent", page = Model.CurrentPage - 1 })" class="btn btn-primary">&lsaquo;&lsaquo; Prev 10</a>
+
+                  }
+                  @if (Model.CurrentPage == Model.TotalPages)
+                  {
+                     <a href="#" class="btn btn-primary disabled">Next 10 &rsaquo;&rsaquo;</a>
+                  }
+                  else
+                  {
+                     <a href="@Url.RouteUrl("Messages", new { section = Model.Section == StaffPortal.Service.MessageType.Received ? "inbox" : "sent", page = Model.CurrentPage + 1 })" class="btn btn-primary">Next 10 &rsaquo;&rsaquo;</a>
+                  }
+
+
+
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="box box-primary" id="message-box" style="display: none">
+         <div class="box-header with-border">
+            <h3 class="box-title" id="mailmsg-title"></h3>
+            <div id="mailmsg-info"></div>
+            <div class="box-tools pull-right">
+               <button class="btn btn-box-tool" data-widget="remove" id="close-message"><i class="fa fa-times"></i></button>
+            </div>
+         </div>
+         <div class="box-body">
+            <p id="mailmsg-body"></p>
+         </div>
+         <div class="box-footer clearfix">
+            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#newmessagemodal" id="replymessagebutton"><i class="fa fa-reply"></i> Reply</button>
+         </div>
+      </div>
+   </div>
+
+</div>
+
+
+
+
+

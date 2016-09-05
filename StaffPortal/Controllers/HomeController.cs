@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using StaffPortal.Models;
 using StaffPortal.Models.ViewModels;
 using StaffPortal.Service;
+using StaffPortal.Business;
 
 namespace StaffPortal.Controllers
 {
@@ -20,6 +21,9 @@ namespace StaffPortal.Controllers
         private ApplicationUserManager _userManager;
         private BookingService _bookingService = new BookingService();
         private AlertService _alertService = new AlertService();
+        private MessageService _messageService = new MessageService();
+        private StaffService _staffService = new StaffService();
+
 
         public HomeController()
         {
@@ -77,6 +81,57 @@ namespace StaffPortal.Controllers
             return View(user);
         }
 
+        [Authorize]
+        [Route("messages/{section}/{page:int=1}", Name = "Messages")]
+        public async Task<ActionResult> Messages(string section, int page)
+        {
+            var user = new LoggedInStaffMember();
+            if (User.Identity.IsAuthenticated)
+            {
+                user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
+            }
+
+            MessageType messageType = section == "inbox" ? MessageType.Received : MessageType.Sent;
+
+            List<Message> messages = _messageService.GetAllMessagesForUser(User.Identity.GetUserId(), messageType);
+            int pages = (messages.Count + 10 - 1) / 10;
+            messages = messages.Skip((page - 1) * 10).Take(10).ToList();
+
+            var allStaff = _staffService.GetAllStaff();
+
+            var viewModel = new MessagesViewModel
+            {
+                Messages = messages,
+                Staff = allStaff,
+                Section = messageType,
+                TotalPages = pages,
+                CurrentPage = page
+            };
+
+            return View(viewName: "Messages", model: viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SendMessage(SendMessageDto dto)
+        {
+            var senderId = User.Identity.GetUserId();
+
+            _messageService.SendMessage(senderId, dto.ReceiverId.ToString(), dto.Subject, dto.Body);
+
+            return RedirectToAction("Messages", new { Section = "inbox" });
+        }
+
+        [System.Web.Mvc.HttpPost]
+        public ActionResult DeleteMessages()
+        {
+            var messageIds = Request.Form.AllKeys.Select(k => int.Parse(k)).ToArray();
+            var senderId = User.Identity.GetUserId();
+
+            _messageService.DeleteMessages(messageIds, senderId);
+
+            return RedirectToAction("Messages", new { Section = "inbox" });
+        }
+
         [ChildActionOnly]
         public ActionResult SideBar()
         {
@@ -91,6 +146,10 @@ namespace StaffPortal.Controllers
                 int userId = UserManager.FindById(User.Identity.GetUserId()).StaffMemberId;
                 viewModel.PendingHolidaysForSupervisor = new SupervisorService().GetPendingHolidaysForSupervisor(userId).Count;
             }
+            if (User.Identity.IsAuthenticated)
+            {
+                viewModel.UnreadMessages = _messageService.GetUnreadTotalForUser(User.Identity.GetUserId());
+            }
 
             return View("_SideBar", viewModel);
         }
@@ -101,5 +160,21 @@ namespace StaffPortal.Controllers
             var alerts = _alertService.GetAlertsForUser(User.Identity.GetUserId()).OrderByDescending(a => a.Created).ToList();
             return View("_GetAlerts", alerts);
         }
+    }
+
+    public class SendMessageDto
+    {
+        public Guid ReceiverId { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+    }
+
+    public class MessagesViewModel
+    {
+        public List<Message> Messages { get; set; }
+        public List<ApplicationUser> Staff { get; set; }
+        public MessageType Section { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
     }
 }

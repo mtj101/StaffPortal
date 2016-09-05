@@ -1,3 +1,16 @@
 ﻿.alert-dismiss:hover {
     cursor: pointer;
 }
+.mailbox.mailbox-chosen {
+    background-color: rgb(60, 141, 188);
+    color: white;
+}
+.mailbox.mailbox-read {
+    /*font-style: italic;*/
+}
+.mailbox.mailbox-unread {   
+    font-weight: bold;
+}
+.mailbox .mailbox-link:hover {
+    cursor: pointer;
+}

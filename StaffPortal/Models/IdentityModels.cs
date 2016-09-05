@@ -30,6 +30,7 @@ namespace StaffPortal.Models
         public virtual DbSet<Alert> Alert { get; set; }
         public virtual DbSet<StaffMember> StaffMember { get; set; }
         public virtual DbSet<ApplicationSetting> ApplicationSettings { get; set; }
+        public virtual DbSet<Message> Messages { get; set; }
     }
 
     public class ApplicationSetting

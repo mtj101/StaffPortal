@@ -22,18 +22,6 @@
                         </tr>
                      </thead>
                      <tbody>
-                        @*@foreach (var booking in Model.Bookings)
-                        {
-                           <tr>
-                              <td>@(booking.StaffMember.FirstNames + " " + booking.StaffMember.Surname)</td>
-                              <td>@booking.StaffMember.Department.Name</td>
-                              <td>@booking.Start.ToShortDateString()</td>
-                              <td>@booking.End.ToShortDateString()</td>     
-                              <td><input type="radio" name="@booking.IsApproved" value="true" /></td>
-                              <td><input type="radio" name="@booking.IsApproved" value="false" /></td>
-                              <td>@Html.RadioButtonFor(m => m.Bookings[booking].IsApproved, "true")                                    
-                           </tr>
-                        }*@
                         @for (int i = 0; i < Model.SupervisorApprovals.Count; i++)
                         {
                            <tr>
@@ -41,8 +29,6 @@
                               <td>@Model.SupervisorApprovals[i].Department</td>
                               <td>@Model.SupervisorApprovals[i].Start</td>
                               <td>@Model.SupervisorApprovals[i].End</td>
-                              @*<td><input type="radio" name="@Model.Bookings[i].IsApproved" value="true" /></td>
-                              <td><input type="radio" name="@Model.Bookings[i].IsApproved" value="false" /></td>*@
                               <td>@Html.RadioButtonFor(m => m.SupervisorApprovals[i].IsApproved, "true")</td>
                               <td>@Html.RadioButtonFor(m => m.SupervisorApprovals[i].IsApproved, "false")</td>
                               @Html.HiddenFor(m => m.SupervisorApprovals[i].HolidayBookingId)

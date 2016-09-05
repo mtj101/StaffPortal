@@ -36,6 +36,17 @@
                         <i class="fa fa-user"></i> <span>User Panel</span>
                     </a>
                 </li>
+
+               <li class="@(route.StartsWith("messages") ? "active" : "")">
+                  <a href="@Url.Action("Messages", "Home", new { Section = "inbox" })">
+                     <i class="fa fa-envelope-o"></i> <span>Messages</span>
+                     @if (Model.UnreadMessages > 0)
+                     {
+                        <small class="label pull-right bg-red" id="unreadmessagecount">@Model.UnreadMessages</small>
+                     }
+                     
+                  </a>
+               </li>
             }
             @if (User.IsInRole("Admin") || User.IsInRole("Supervisor"))
             {
