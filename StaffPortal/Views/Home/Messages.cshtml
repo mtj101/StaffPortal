@@ -127,8 +127,11 @@
                   </tbody>
                </table>
             </div>
-            <div class="box-footer">
-               <input type="submit" value="Delete" class="btn btn-warning" />
+            <div class="box-footer clearfix">
+               @if (Model.Section == StaffPortal.Service.MessageType.Received)
+               {
+                  <input type="submit" value="Delete" class="btn btn-warning" />
+               }
                <div class="btn-group pull-right">
                   @if (Model.CurrentPage == 1)
                   {
