@@ -43,7 +43,7 @@ namespace StaffPortal.Controllers
         [Route("")]
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Calendar");
         }
 
         [Route("calendar")]
