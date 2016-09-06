@@ -200,6 +200,7 @@
     <Compile Include="Migrations\201609052354299_StaffmemberStartDate.Designer.cs">
       <DependentUpon>201609052354299_StaffmemberStartDate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\UserPanelViewModel.cs" />
     <Compile Include="Service\MessageService.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.Designer.cs">

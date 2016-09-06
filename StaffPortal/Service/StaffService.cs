@@ -14,7 +14,7 @@ namespace StaffPortal.Service
 
         public StaffMember GetStaffMemberById(int staffId)
         {
-            var staffMember = _db.StaffMember.Single(s => s.Id == staffId);
+            var staffMember = _db.StaffMember.Include(s => s.Department).Single(s => s.Id == staffId);
             return staffMember;
         }
 

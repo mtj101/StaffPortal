@@ -1,10 +1,133 @@
-﻿@model StaffPortal.Models.LoggedInStaffMember
+﻿@model StaffPortal.Models.ViewModels.UserPanelViewModel
+
 @{
-    ViewBag.Title = "UserPanel";
+    ViewBag.Title = "User Panel";
 }
 
-<h2>UserPanel</h2>
+<div class="row">
+   <div class="col-md-6">
+      <div class="box box-primary">
+         <div class="box-header with-border">
+            <h4 class="box-title">Personal Details</h4>
+         </div>
+         <div class="box-body">
+            <dl class="dl-horizontal">
+               <dt>
+                  @Html.DisplayNameFor(model => model.Name)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.Name)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.DateOfBirth)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.DateOfBirth)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.Email)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.Email)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.PhoneNumber)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.PhoneNumber)
+               </dd>
+            </dl>
 
-<p>Booked holidays: @Model.HolidaysBooked</p>
-<p>Pending holidays: @Model.HolidaysPending</p>
+
+            <dl class="dl-horizontal">
+               <dt>
+                  @Html.DisplayNameFor(model => model.Address1)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.Address1)
+               </dd>
+
+               <dt>
+                  @Html.DisplayNameFor(model => model.Address2)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.Address2)
+               </dd>
+
+               <dt>
+                  @Html.DisplayNameFor(model => model.City)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.City)
+               </dd>
+
+               <dt>
+                  @Html.DisplayNameFor(model => model.PostCode)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.PostCode)
+               </dd>
+
+               <dt>
+                  @Html.DisplayNameFor(model => model.County)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.County)
+               </dd>
+
+               <dt>
+                  @Html.DisplayNameFor(model => model.Country)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.Country)
+               </dd>
+            </dl>
+         </div>
+
+      </div>
+   </div>
+   <div class="col-md-6">
+      <div class="box box-primary">
+         <div class="box-header with-border">
+            <h4 class="box-title">Employment Details</h4>
+         </div>
+         <div class="box-body">
+            <dl class="dl-horizontal">
+               <dt>
+                  @Html.DisplayNameFor(model => model.StartDate)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.StartDate)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.EmploymentLength)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.EmploymentLength)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.Role)
+               </dt>
+               <dd>
+                  @Html.DisplayFor(model => model.Role)
+               </dd>
+               <dt>
+                  @Html.DisplayNameFor(model => model.Department)
+               </dt>
+
+               <dd>
+                  @Html.DisplayFor(model => model.Department)
+               </dd>
+            </dl>
+         </div>
+
+      </div>
+   </div>
+</div>
 

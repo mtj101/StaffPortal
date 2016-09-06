@@ -66,19 +66,32 @@ namespace StaffPortal.Controllers
 
         [Authorize]
         [Route("userpanel")]
-        public async Task<ActionResult> UserPanel()
+        public ActionResult UserPanel()
         {
-            var user = new LoggedInStaffMember();
-            if (User.Identity.IsAuthenticated)
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            var staffMember = _staffService.GetStaffMemberById(user.StaffMemberId);
+
+            var employmentTimeSpan = DateTime.UtcNow - staffMember.StartDate;
+
+            var viewModel = new UserPanelViewModel()
             {
-                user.Id = (await UserManager.FindByNameAsync(User.Identity.Name)).StaffMemberId;
-            }
+                Name = $"{staffMember.FirstNames} {staffMember.Surname}",
+                DateOfBirth = staffMember.DateOfBirth.ToString("dd/MM/yyyy"),
+                Address1 = staffMember.Address1,
+                Address2 = staffMember.Address2,
+                City = staffMember.City,
+                PostCode = staffMember.PostCode,
+                Country = staffMember.Country,
+                County = staffMember.County,
+                StartDate = staffMember.StartDate.ToString("dd/MM/yyyy"),
+                Department = staffMember.Department.Name,
+                Role = UserManager.GetRoles(user.Id).First(),
+                EmploymentLength = string.Format("{0:D1} years and {1:D1} months", employmentTimeSpan.Days / 365, (employmentTimeSpan.Days % 365) / 31),
+                Email = user.Email,
+                PhoneNumber = staffMember.PhoneNumber
+            };
 
-            var totals = _bookingService.GetHolidayTotalsForUser(user.Id);
-            user.HolidaysBooked = totals.Booked;
-            user.HolidaysPending = totals.Pending;
-
-            return View(user);
+            return View(viewModel);
         }
 
         [Authorize]

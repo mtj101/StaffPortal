@@ -18,27 +18,14 @@
                <small>@Model.Department</small>
             </p>
          </li>
-         <!-- Menu Body -->
-         <li class="user-body">
-            <div class="col-xs-4 text-center">
-               <a href="#">Followers</a>
-            </div>
-            <div class="col-xs-4 text-center">
-               <a href="#">Sales</a>
-            </div>
-            <div class="col-xs-4 text-center">
-               <a href="#">Friends</a>
-            </div>
-         </li>
          <!-- Menu Footer-->
          <li class="user-footer">
             <div class="pull-left">
-               <a href="#" class="btn btn-default btn-flat">Profile</a>
+               <a href="@Url.Action("UserPanel", "Home")" class="btn btn-default btn-flat">Profile</a>
             </div>
             <div class="pull-right">
                <form method="post" action="@Url.Action("LogOff", "Account")">
                   @Html.AntiForgeryToken()
-                  @*<a href="@Url.Action("LogOff", "Account")" class="btn btn-default btn-flat">Sign out</a>*@
                   <input type="submit" class="btn btn-default btn-flat" value="Sign Out" />
                </form>
 
