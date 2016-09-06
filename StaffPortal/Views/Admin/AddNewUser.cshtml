@@ -156,6 +156,17 @@
 
          <fieldset>
             <legend>Employment Details</legend>
+
+            <div class="form-group">
+               @Html.LabelFor(m => m.StartDate, new { @class = "col-md-2 control-label" })
+               <div class="col-md-6">
+                  @Html.EditorFor(m => m.StartDate, new { @class = "form-control" })
+               </div>
+               <div class="col-md-4">
+                  @Html.ValidationMessageFor(m => m.StartDate, "", new { @class = "text-danger" })
+               </div>
+            </div>
+
             <div class="form-group">
                @Html.LabelFor(m => m.DepartmentId, "Department", new { @class = "col-md-2 control-label" })
                <div class="col-md-6">

@@ -67,7 +67,8 @@ namespace StaffPortal.Controllers
                         County = model.County,
                         Country = model.Country,
                         PhoneNumber = model.PhoneNumber,
-                        DateOfBirth = model.DateOfBirth
+                        DateOfBirth = model.DateOfBirth,
+                        StartDate = model.StartDate
                     }
                 };
 

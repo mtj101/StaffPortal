@@ -18,6 +18,8 @@ namespace StaffPortal.Business
         public string PostCode { get; set; }
         public string Country { get; set; }
 
+        public DateTime StartDate { get; set; }
+
 
         public int DepartmentId { get; set; }
         [ForeignKey(nameof(DepartmentId))]

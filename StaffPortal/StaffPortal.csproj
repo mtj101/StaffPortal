@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201609031642351_AddMessagesToModel.Designer.cs">
       <DependentUpon>201609031642351_AddMessagesToModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609052354299_StaffmemberStartDate.cs" />
+    <Compile Include="Migrations\201609052354299_StaffmemberStartDate.Designer.cs">
+      <DependentUpon>201609052354299_StaffmemberStartDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Service\MessageService.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.cs" />
     <Compile Include="Migrations\201608280246329_StaffIdForeignKey.Designer.cs">
@@ -927,6 +931,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609031642351_AddMessagesToModel.resx">
       <DependentUpon>201609031642351_AddMessagesToModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609052354299_StaffmemberStartDate.resx">
+      <DependentUpon>201609052354299_StaffmemberStartDate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
