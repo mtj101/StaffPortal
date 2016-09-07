@@ -10,43 +10,47 @@
       </div>
    </section>
    <section class="col-md-4">
-      <div class="row">
-         <div class="col-xs-12 col-sm-6 col-md-12">
-            <div class="info-box">
-               <span id="newholiday" class="info-box-icon bg-blue" data-toggle="modal" data-target="#addHoliday"><i class="fa fa-calendar-plus-o"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Book a Holiday</span>
+      @if (User.Identity.IsAuthenticated)
+      {
+         <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-12">
+               <div class="info-box">
+                  <span id="newholiday" class="info-box-icon bg-blue" data-toggle="modal" data-target="#addHoliday"><i class="fa fa-calendar-plus-o"></i></span>
+                  <div class="info-box-content">
+                     <span class="info-box-text">Book a Holiday</span>
+                  </div>
                </div>
             </div>
-         </div>
-         <div class="col-xs-12 col-sm-6 col-md-12">
-            <div class="info-box bg-green">
-               <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Holidays (Approved)</span>
-                   <span class="info-box-number">@Model.HolidaysBooked days</span>
-                  <!-- The progress section is optional -->
-                  <div class="progress">
-                     <div class="progress-bar" style="width: @((Model.HolidaysBooked/20d)*100)%"></div>
-                  </div>
-                  <span class="progress-description">
-                     Total allowance: @Model.MaximumHolidays
-                  </span>
-               </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-         </div>
+            <div class="col-xs-12 col-sm-6 col-md-12">
+               <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
+                  <div class="info-box-content">
+                     <span class="info-box-text">Holidays (Approved)</span>
+                     <span class="info-box-number">@Model.HolidaysBooked days</span>
+                     <!-- The progress section is optional -->
+                     <div class="progress">
+                        <div class="progress-bar" style="width: @((Model.HolidaysBooked/20d)*100)%"></div>
+                     </div>
+                     <span class="progress-description">
+                        Total allowance: @Model.MaximumHolidays
+                     </span>
+                  </div><!-- /.info-box-content -->
+               </div><!-- /.info-box -->
+            </div>
 
-         <div class="col-xs-12 col-sm-6 col-md-12">
-            <div class="info-box bg-yellow">
-               <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
-               <div class="info-box-content">
-                  <span class="info-box-text">Holidays (pending)</span>
-                   <span class="info-box-number"><span id="pendingdays">@Model.HolidaysPending</span> days</span>
-               </div><!-- /.info-box-content -->
-            </div><!-- /.info-box -->
-         </div>
+            <div class="col-xs-12 col-sm-6 col-md-12">
+               <div class="info-box bg-yellow">
+                  <span class="info-box-icon"><i class="fa fa-calendar-o"></i></span>
+                  <div class="info-box-content">
+                     <span class="info-box-text">Holidays (pending)</span>
+                     <span class="info-box-number"><span id="pendingdays">@Model.HolidaysPending</span> days</span>
+                  </div><!-- /.info-box-content -->
+               </div><!-- /.info-box -->
+            </div>
 
-      </div>
+         </div>
+      }
+
    </section>
    <div class="modal fade" id="addHoliday" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog">
