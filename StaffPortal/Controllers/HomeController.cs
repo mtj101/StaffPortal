@@ -134,7 +134,7 @@ namespace StaffPortal.Controllers
             return RedirectToAction("Messages", new { Section = "inbox" });
         }
 
-        [System.Web.Mvc.HttpPost]
+        [HttpPost]
         public ActionResult DeleteMessages()
         {
             var messageIds = Request.Form.AllKeys.Select(k => int.Parse(k)).ToArray();
